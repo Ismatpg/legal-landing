@@ -7,7 +7,7 @@
   <title>[Votre Cabinet] — Appel gratuit pour évaluer votre dossier</title>
   <meta name="description" content="Décrivez votre situation en 2 minutes. Un avocat vous contactera pour une première évaluation sans engagement." />
   <meta name="robots" content="index,follow" />
-  <link rel="canonical" href="https://ismatpg.github.io/legal-landing" />
+  <link rel="canonical" href="https://ismatpg.github.io/legal-landing/" />
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
   <meta name="theme-color" content="#2563EB" />
 
@@ -27,8 +27,8 @@
   <!-- Pico + estilos -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
-  <!-- cache‑buster para asegurar que ves los cambios -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=10" />
+  <!-- cache‑buster -->
+  <link rel="stylesheet" href="assets/css/styles.css?v=12" />
 
   <!-- Turnstile -->
   <script defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
@@ -89,12 +89,11 @@
           </ul>
         </div>
 
-        <!-- Formulario por pasos (sin clase .card para evitar override) -->
+        <!-- Formulario por pasos -->
         <aside class="form-card" aria-labelledby="form-title" aria-describedby="form-desc">
           <h2 id="form-title" class="form-title">Réservez votre appel</h2>
           <p id="form-desc" class="form-desc">2&nbsp;minutes. Vos infos restent privées.</p>
 
-          <!-- Resumen de errores (se muestra si hay fallos) -->
           <div id="error-summary" class="error-summary" role="alert" aria-live="polite" hidden>
             <h3>Veuillez corriger les erreurs suivantes :</h3>
             <ul id="error-list"></ul>
@@ -172,7 +171,7 @@
                     <small id="summary-count" class="count" aria-live="polite">0/1000</small>
                   </div>
 
-                  <!-- Honeypot (oculto en CSS) -->
+                  <!-- Honeypot (oculto) -->
                   <input type="text" id="middle-name" name="middle_name" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" placeholder="Ne pas remplir" />
 
                   <!-- Tracking (oculto) -->
