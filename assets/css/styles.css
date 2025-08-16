@@ -1,232 +1,231 @@
-/* === Design system (FR/MA) con alto contraste, espaciado óptimo y parallax moderno === */
+/* ======================
+   Design System (FR/MA)
+   ====================== */
 
-/* Paleta y tipografía base */
+/* Paleta, fuentes y escala */
 :root {
-  --brand-1: #0d6efd;
-  --brand-2: #0b5ed7;
+  /* Tipografías */
+  --ff-sans: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --ff-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
 
-  --bg-soft: hsl(220 20% 98%);
-  --text-base: #0f172a;       /* muy oscuro, excelente legibilidad */
-  --text-muted: #475569;      /* para copy general */
-  --radius: .75rem;
-  --shadow-1: 0 10px 30px rgba(0,0,0,.06);
-  --maxw: 1100px;
+  /* Colores de marca (azules sobrios) */
+  --brand-900:#1E3A8A; /* indigo oscuro */
+  --brand-700:#1D4ED8;
+  --brand-600:#2563EB;
+  --brand-500:#3B82F6;
+  --brand-400:#60A5FA;
 
-  /* Campos del formulario (conformes AA) */
-  --field-bg: #ffffff;        /* fondo blanco */
-  --field-text: #0f172a;      /* texto oscuro */
-  --field-border: #64748b;    /* borde ≈4.76:1 vs blanco */
-  --field-border-hover: #475569;
-  --field-placeholder: #334155; /* placeholder legible */
+  /* Superficies y texto */
+  --surface-0:#0B0F1A;     /* fondo base (oscuro profesional) */
+  --surface-100:#121826;   /* variante */
+  --card:#121826;          /* tarjetas */
+  --text-strong:#FFFFFF;   /* texto fuerte sobre oscuro */
+  --text:#E5E7EB;          /* texto base */
+  --muted:#A7B0C0;         /* texto secundario */
 
-  /* Escala de espacio (8‑pt) */
-  --space-1: .5rem;   /* 8px  : etiqueta→campo, ayudas */
-  --space-2: .75rem;  /* 12px */
-  --space-3: 1rem;    /* 16px */
-  --space-4: 1.5rem;  /* 24px : entre campos */
-  --space-5: 2rem;    /* 32px : entre grupos/antes del CTA */
-  --space-6: 2.5rem;  /* 40px */
+  /* Campos del formulario (sobre tarjeta clara) */
+  --field-bg:#FFFFFF;
+  --field-text:#0F172A;
+  --field-border:#64748B;
+  --field-border-hover:#475569;
+  --field-placeholder:#334155;
+
+  /* Espaciado 8‑pt */
+  --space-1:.5rem;  /* 8px  */
+  --space-2:1rem;   /* 16px */
+  --space-3:1.5rem; /* 24px */
+  --space-4:2rem;   /* 32px */
+  --space-5:2.5rem; /* 40px */
+  --space-6:3rem;   /* 48px */
+
+  /* Radios y sombras */
+  --radius-2:.75rem;
+  --radius-3:1rem;
+  --shadow-1:0 10px 30px rgba(0,0,0,.25);
+
+  /* CTA */
+  --cta-grad: linear-gradient(135deg, var(--brand-600), var(--brand-400));
 }
-@media (min-width: 640px){
-  :root{
-    --space-5: 2.5rem; /* 40px */
-    --space-6: 3rem;   /* 48px */
-  }
+
+/* Tema oscuro/ligero del documento (el formulario es claro, override más abajo) */
+body {
+  font-family: var(--ff-sans);
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #0C1630 0%, transparent 60%),
+    radial-gradient(1200px 600px at 110% 20%, #0A1B40 0%, transparent 60%),
+    linear-gradient(180deg, #0A1020, #0D1324);
+  color: var(--text);
+  position: relative;
+  min-height: 100dvh;
 }
 
-/* Tema oscuro de la página (la tarjeta del form queda clara) */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-soft: hsl(220 10% 10%);
-    --text-muted: #94a3b8;
-    --shadow-1: 0 10px 30px rgba(0,0,0,.4);
-  }
+/* Textura grain (sin archivo) */
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/></filter><rect width='300' height='300' filter='url(%23n)' opacity='0.15'/></svg>");
+  background-size: 300px 300px; background-repeat: repeat;
+  mix-blend-mode: soft-light; opacity:.05;
 }
 
-body { background-color: var(--bg-soft); color: var(--text-base); }
-.container { max-width: var(--maxw); }
-.brand { text-decoration: none; }
+/* Tipografía fluida */
+h1{ font-family: var(--ff-serif); font-weight: 700; line-height: 1.15; font-size: clamp(2rem, 2.8vw + 1rem, 3.3rem); color: var(--text-strong); }
+h2{ font-family: var(--ff-serif); font-weight: 700; line-height: 1.2; font-size: clamp(1.5rem, 1.6vw + 1rem, 2.2rem); color: var(--text-strong); }
+h3{ font-family: var(--ff-serif); font-weight: 700; color: var(--text-strong); }
+.lead{ color: var(--text); font-size: clamp(1rem, .5vw + .9rem, 1.125rem); }
+
+.container { max-width: 1100px; }
+
+/* Header */
+.site-header nav a.brand{ text-decoration:none; color: var(--brand-400); }
 
 /* Link de salto accesible */
-.skip-link {
-  position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;
+.skip-link{
+  position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
 }
-.skip-link:focus { position: static; width: auto; height: auto; padding: .5rem; background: #fff; border-radius: .25rem; }
+.skip-link:focus{ position:static; width:auto; height:auto; padding:.5rem; background:#fff; color:#000; border-radius:.25rem; }
 
-/* === Hero con imagen, scrim y parallax opcional === */
-.hero {
+/* ======================
+   HERO
+   ====================== */
+.hero{
   position: relative; isolation: isolate; overflow: clip;
-  display: grid; gap: 2rem; grid-template-columns: 1.1fr 0.9fr;
-  align-items: start; padding-block: 2rem 3.25rem;
-  border-radius: var(--radius);
+  border-radius: var(--radius-3);
+  padding: var(--space-4) var(--space-2) var(--space-5);
 }
-@media (max-width: 980px) { .hero { grid-template-columns: 1fr; } }
+.hero-inner{
+  position: relative; z-index:1;
+  display: grid; gap: var(--space-5);
+  grid-template-columns: 1.1fr .9fr;
+  align-items: start;
+}
+@media (max-width: 980px){ .hero-inner{ grid-template-columns: 1fr; } }
 
 .hero-media{
-  position: absolute; inset: 0; z-index: -1;
-  overflow: hidden; transform: translateZ(0); will-change: transform;
+  position:absolute; inset:0; z-index:0; overflow:hidden;
+  transform: translateZ(0); will-change: transform;
 }
-.hero-media picture, .hero-media img{ width:100%; height:100%; display:block; object-fit:cover; }
-.hero-media::after{
-  /* Scrim para legibilidad */
-  content:""; position:absolute; inset:0;
+.hero-media picture, .hero-media img{ width:100%; height:100%; object-fit:cover; display:block; filter: saturate(105%); }
+.hero-scrim{
+  position:absolute; inset:0; z-index:1; pointer-events:none;
   background:
-    radial-gradient(1200px 400px at 20% 10%, rgba(13,110,253,.18), transparent 60%),
-    linear-gradient(90deg, rgba(15,23,42,.65) 0%, rgba(15,23,42,.35) 40%, rgba(15,23,42,.15) 70%, transparent 100%);
+    radial-gradient(1200px 400px at 20% 10%, rgba(37,99,235,.18), transparent 60%),
+    linear-gradient(90deg, rgba(10,15,25,.72) 0%, rgba(10,15,25,.46) 40%, rgba(10,15,25,.20) 70%, rgba(10,15,25,.0) 100%);
 }
 
-/* Parallax scroll‑driven CSS */
+/* Parallax por CSS scroll‑driven (si hay soporte) */
 @keyframes heroParallax { from{ transform: translateY(-4%);} to{ transform: translateY(4%);} }
-@supports (animation-timeline: view()) {
+@supports (animation-timeline: view()){
   .hero-media.parallax{
     animation-name: heroParallax;
-    animation-duration: 1ms;        /* timeline por scroll */
-    animation-timing-function: linear;
-    animation-fill-mode: both;
-    animation-timeline: view();
-    animation-range: cover 0% cover 100%;
+    animation-duration: 1ms; animation-timing-function: linear; animation-fill-mode: both;
+    animation-timeline: view(); animation-range: cover 0% cover 100%;
   }
 }
-/* Respeta preferencia de reducir movimiento */
+/* Respeta reduced motion */
 @media (prefers-reduced-motion: reduce){
-  .hero-media.parallax{ animation: none !important; transform: none !important; }
+  .hero-media.parallax{ animation:none !important; transform:none !important; }
 }
 
-.hero .lead { margin-bottom: .75rem; color: var(--text-muted); }
-.accent { color: var(--brand-1); }
-.trust { display:flex; gap:1rem; padding:0; list-style:none; color: var(--text-muted); flex-wrap:wrap; }
-.trust li { display:inline-flex; align-items:center; gap:.35rem; }
-.trust li::before { content:"✓"; color:var(--brand-1); }
+/* Badges */
+.badges{ display:flex; flex-wrap:wrap; gap: var(--space-2); padding:0; list-style:none; margin-top: var(--space-2); }
+.badge{ display:inline-flex; align-items:center; gap:.5rem; color:var(--text); background: rgba(255,255,255,.06); padding:.35rem .6rem; border-radius: 999px; }
 
-/* === Tarjeta del formulario: alto contraste total === */
-.form-card {
-  background: #fff; color: var(--text-base);
-  padding: 1.25rem; border-radius: var(--radius); box-shadow: var(--shadow-1);
-
-  /* Sobrescribe tokens de Pico.css SOLO dentro de la tarjeta */
+/* ======================
+   FORMULARIO
+   ====================== */
+.form-card{
+  background:#fff; color:#0f172a;
+  border-radius: var(--radius-3);
+  box-shadow: var(--shadow-1);
+  padding: var(--space-4);
+  /* Override tokens Pico solo dentro del card */
   --pico-form-element-background-color: var(--field-bg);
   --pico-form-element-color: var(--field-text);
   --pico-form-element-border-color: var(--field-border);
   --pico-form-element-hover-border-color: var(--field-border-hover);
-  --pico-form-element-focus-color: var(--brand-1);
+  --pico-form-element-focus-color: var(--brand-600);
   --pico-form-element-placeholder-color: var(--field-placeholder);
-  --pico-muted-color: var(--text-base); /* elimina gris pálido por defecto */
+  --pico-muted-color: #0f172a;
 }
-/* Forzar textos nítidos dentro del form */
-.form-card :is(h1,h2,h3,h4,h5,h6,p,small:not(.error),label,legend,summary) {
-  color: var(--text-base) !important;
-  opacity: 1 !important;
-}
-.form-title { margin-bottom: .25rem; font-weight: 700; }
-.form-desc  { margin-top: 0; }
-.form-card label { color: var(--text-base); font-weight: 600; }
 
-/* Inputs */
+/* Evita grises pálidos dentro del card */
+.form-card :is(h1,h2,h3,h4,h5,h6,p,small:not(.error),label,legend){ color:#0f172a !important; opacity:1 !important; }
+.form-title{ margin-bottom:.25rem; }
+.form-desc{ margin-top:0; color:#334155; }
+
+/* Grid y espaciado 8‑pt */
+.form-grid{ display:grid; gap: var(--space-3); }
+.field{ position:relative; }
+
+/* Inputs base */
 .form-card input[type="text"],
 .form-card input[type="tel"],
 .form-card select,
-.form-card textarea {
+.form-card textarea{
   background-color: var(--field-bg);
   color: var(--field-text);
   border: 1px solid var(--field-border);
   min-height: 44px;
 }
 .form-card input::placeholder,
-.form-card textarea::placeholder { color: var(--field-placeholder); opacity: 1; }
+.form-card textarea::placeholder{ color: var(--field-placeholder); opacity: 1; }
 
-/* === Espaciado del formulario (escala 8‑pt) y patrón “3.0” === */
-.lead-form { margin-top: var(--space-3); }
-.field{ position: relative; margin: 0 0 var(--space-4); }
-.field .hint{ opacity: 0; height: 0; overflow: hidden; transition: opacity .15s ease; color: var(--text-base); }
-.field:focus-within .hint{ opacity: 1; height: auto; }
+/* Hints solo al foco (menos ruido) */
+.field .hint{ opacity:0; height:0; overflow:hidden; transition: opacity .15s ease; }
+.field:focus-within .hint{ opacity:1; height:auto; }
 
-.floating input,
-.floating textarea{
-  padding-top: 1.35rem; /* espacio para la label dentro */
-}
-
-/* Label flotante */
+/* Floating label para input/textarea */
+.floating input, .floating textarea{ padding-top: 1.35rem; }
 .floating label{
-  position: absolute; left: .75rem; top: .85rem;
-  font-size: .95rem; line-height: 1;
-  color: var(--text-muted);
-  background: transparent;
-  padding: 0 .25rem;
-  pointer-events: none;
-  transform-origin: left top;
-  transition: transform .18s ease, color .18s ease, top .18s ease, background-color .18s ease;
+  position:absolute; left:.75rem; top:.85rem; pointer-events:none;
+  font-size:.95rem; line-height:1; color:#64748b; padding:0 .25rem; background:transparent;
+  transform-origin:left top; transition: transform .18s ease, color .18s ease, top .18s ease, background-color .18s ease;
 }
-
-/* Flota en foco o con contenido */
 .floating :is(input,textarea):focus + label,
 .floating :is(input,textarea):not(:placeholder-shown) + label{
-  top: .35rem;
-  transform: translateY(-.35rem) scale(.88);
-  color: var(--brand-1);
-  background: #fff; /* legibilidad sobre el borde */
+  top:.35rem; transform: translateY(-.35rem) scale(.88); color: var(--brand-700); background:#fff;
 }
 
-/* Estados de foco/errores */
-.form-card :is(input, select, textarea):focus {
-  outline: 2px solid var(--brand-1);
-  outline-offset: 2px;
-  border-color: var(--brand-1);
-}
-.form-card :is(input, select, textarea)[aria-invalid="true"] {
-  border-color: #b00020 !important;
-  outline-color: #b00020 !important;
-}
+/* Foco y error */
+:focus-visible{ outline:2px solid var(--brand-500); outline-offset:2px; border-radius:.25rem; }
+.form-card :is(input,select,textarea):focus{ border-color: var(--brand-600); }
+.form-card :is(input,select,textarea)[aria-invalid="true"]{ border-color:#b00020 !important; outline-color:#b00020 !important; }
+.error{ color:#b00020; min-height:1.25rem; display:inline-block; }
+.count{ color:#475569; }
 
-.hint { color: var(--text-base); }
-.count { color: var(--text-base); display:inline-block; }
-.error { color: #b00020; min-height: 1.25rem; display:inline-block; }
-.status { margin-top: .5rem; }
+/* CTA */
+.cta-primary{
+  background: var(--cta-grad); color:#fff; border:none;
+  padding:.9rem 1.2rem; border-radius:.75rem;
+  box-shadow: 0 8px 24px rgba(37,99,235,.35);
+}
+.cta-primary:hover{ filter: brightness(1.05); }
+@media (max-width: 768px){
+  .cta-sticky{ position: sticky; bottom: .75rem; inset-inline: auto 0; z-index: 10; }
+}
 
 /* Resumen de errores */
 .error-summary{
-  border: 2px solid #b00020; border-radius: .5rem; padding: .75rem 1rem;
-  background: #fff5f5; color: #3a0a0a; margin-bottom: var(--space-3);
+  border:2px solid #b00020; border-radius:.5rem;
+  padding:.75rem 1rem; background:#fff5f5; color:#3a0a0a; margin-bottom: var(--space-2);
 }
-.error-summary h3{ margin: 0 0 .25rem; font-size: 1rem; }
-.error-summary ul{ margin: 0; padding-left: 1rem; }
+.error-summary h3{ margin:0 0 .25rem; font-size:1rem; }
+.error-summary ul{ margin:0; padding-left:1rem; }
 
 /* Pasos y FAQ */
-.steps { padding-block: 2rem; }
-.steps-grid { display:grid; gap:1rem; grid-template-columns: repeat(3,1fr); }
+.steps{ padding-block: var(--space-5); }
+.steps-grid{ display:grid; gap: var(--space-2); grid-template-columns: repeat(3,1fr); }
 @media (max-width: 980px){ .steps-grid{ grid-template-columns:1fr; } }
-.step { background:#fff; padding:1rem; border-radius:var(--radius); box-shadow: var(--shadow-1); }
+.step{ background: var(--card); color: var(--text); border-radius: var(--radius-2); padding: var(--space-3); box-shadow: var(--shadow-1); }
 
-.faq details { background:#fff; padding:.75rem 1rem; border-radius:var(--radius); margin-block:.5rem; box-shadow: var(--shadow-1); }
-.faq summary { font-weight:600; }
+.faq details{ background: var(--card); color: var(--text); border-radius: var(--radius-2); margin-block:.5rem; padding:.75rem 1rem; box-shadow: var(--shadow-1); }
+.faq summary{ font-weight:600; }
 
 /* Footer */
-footer { padding-block: 2rem 3rem; color: var(--text-muted); }
+footer{ padding-block: var(--space-4) var(--space-6); color: var(--muted); }
 
-/* Focus visible global */
-:focus-visible { outline: 2px solid var(--brand-1); outline-offset: 2px; border-radius: .25rem; }
-
-/* Micro-interacciones */
-@media (prefers-reduced-motion: no-preference) {
-  .form-card, .step, .faq details { transition: transform .2s ease, box-shadow .2s ease; }
-  .form-card:hover, .step:hover, .faq details:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,.08); }
+/* Micro‑interacciones */
+@media (prefers-reduced-motion: no-preference){
+  .form-card, .step, .faq details{ transition: transform .2s ease, box-shadow .2s ease; }
+  .form-card:hover, .step:hover, .faq details:hover{ transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,.28); }
 }
-
-/* Alto contraste (opcional) */
-@media (prefers-contrast: more) {
-  .form-card { --pico-form-element-border-color: #334155; }
-  .form-card :is(input, select, textarea) { border-width: 2px; }
-}
-
-/* Modo colores forzados (Windows) */
-@media (forced-colors: active) {
-  .form-card :is(input, select, textarea) {
-    forced-color-adjust: auto;
-    border-width: 2px;
-  }
-}
-
-/* Honeypot oculto */
-.hp { position: absolute; left: -9999px; opacity: 0; }
-
-/* Noscript */
-.noscript { color: #b00020; margin-top: .5rem; }
