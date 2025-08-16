@@ -2,12 +2,12 @@
 
 /**
  * FR/MA:
- * - Validación inline + resumen de errores accesible
- * - Contador de caractères (Résumé)
- * - Envío a API externa (CORS)
+ * - Validación inline + resumen de erreurs
+ * - Compteur de caractères (Résumé)
+ * - Envoi à API (CORS)
  * - Parallax fallback si no hay scroll‑driven CSS
  */
-const API_URL = "https://lead-api.ismael-guijarro-raissouni.workers.dev"; // ← cambia por tu Worker/API
+const API_URL = "https://lead-api.ismael-guijarro-raissouni.workers.dev"; // ← tu Worker/API
 
 (function () {
   const form = document.getElementById("lead-form");
@@ -136,7 +136,6 @@ const API_URL = "https://lead-api.ismael-guijarro-raissouni.workers.dev"; // ←
       }
 
       if (hasError) {
-        // Lleva foco al resumen
         if (errorSummary) {
           errorSummary.scrollIntoView({ behavior: "smooth", block: "start" });
           errorSummary.focus?.();
