@@ -1,4 +1,4 @@
-/* === Design system (FR/MA) con alto contraste y parallax moderno === */
+/* === Design system (FR/MA) con alto contraste, espaciado óptimo y parallax moderno === */
 
 /* Paleta y tipografía base */
 :root {
@@ -112,16 +112,16 @@ body { background-color: var(--bg-soft); color: var(--text-base); }
   --pico-form-element-placeholder-color: var(--field-placeholder);
   --pico-muted-color: var(--text-base); /* elimina gris pálido por defecto */
 }
-/* Forzar que no quede texto gris claro dentro del formulario */
+/* Forzar textos nítidos dentro del form */
 .form-card :is(h1,h2,h3,h4,h5,h6,p,small:not(.error),label,legend,summary) {
   color: var(--text-base) !important;
   opacity: 1 !important;
 }
 .form-title { margin-bottom: .25rem; font-weight: 700; }
 .form-desc  { margin-top: 0; }
-
 .form-card label { color: var(--text-base); font-weight: 600; }
 
+/* Inputs */
 .form-card input[type="text"],
 .form-card input[type="tel"],
 .form-card select,
@@ -134,15 +134,37 @@ body { background-color: var(--bg-soft); color: var(--text-base); }
 .form-card input::placeholder,
 .form-card textarea::placeholder { color: var(--field-placeholder); opacity: 1; }
 
-/* Espaciado del formulario (escala 8‑pt) */
-.lead-form fieldset{ margin: 0 0 var(--space-4); padding: 0; border: 0; }
-.lead-form label{ display:block; margin: 0 0 var(--space-1); }
-.lead-form :is(input,select,textarea){ margin: 0 0 var(--space-1); }
-.lead-form .hint{ margin: 0 0 var(--space-1); }
-.lead-form .error{ margin: 0; }
-.lead-form .count{ margin-top: .25rem; }
-.lead-form .checkbox{ margin-top: var(--space-3); }
-#submit-btn{ margin-top: var(--space-5); }
+/* === Espaciado del formulario (escala 8‑pt) y patrón “3.0” === */
+.lead-form { margin-top: var(--space-3); }
+.field{ position: relative; margin: 0 0 var(--space-4); }
+.field .hint{ opacity: 0; height: 0; overflow: hidden; transition: opacity .15s ease; color: var(--text-base); }
+.field:focus-within .hint{ opacity: 1; height: auto; }
+
+.floating input,
+.floating textarea{
+  padding-top: 1.35rem; /* espacio para la label dentro */
+}
+
+/* Label flotante */
+.floating label{
+  position: absolute; left: .75rem; top: .85rem;
+  font-size: .95rem; line-height: 1;
+  color: var(--text-muted);
+  background: transparent;
+  padding: 0 .25rem;
+  pointer-events: none;
+  transform-origin: left top;
+  transition: transform .18s ease, color .18s ease, top .18s ease, background-color .18s ease;
+}
+
+/* Flota en foco o con contenido */
+.floating :is(input,textarea):focus + label,
+.floating :is(input,textarea):not(:placeholder-shown) + label{
+  top: .35rem;
+  transform: translateY(-.35rem) scale(.88);
+  color: var(--brand-1);
+  background: #fff; /* legibilidad sobre el borde */
+}
 
 /* Estados de foco/errores */
 .form-card :is(input, select, textarea):focus {
@@ -202,6 +224,9 @@ footer { padding-block: 2rem 3rem; color: var(--text-muted); }
     border-width: 2px;
   }
 }
+
+/* Honeypot oculto */
+.hp { position: absolute; left: -9999px; opacity: 0; }
 
 /* Noscript */
 .noscript { color: #b00020; margin-top: .5rem; }
