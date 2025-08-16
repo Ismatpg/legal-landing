@@ -2,25 +2,38 @@
 
 /**
  * FR/MA:
- * - Validación inline + resumen de erreurs
+ * - Stepper (3 étapes) avec validation à chaque étape
+ * - Résumé des erreurs accessible
  * - Compteur de caractères (Résumé)
- * - Envoi à API (CORS)
- * - Parallax fallback si no hay scroll‑driven CSS
+ * - Envoi à API (CORS) + Turnstile
+ * - Parallax fallback si pas de scroll‑timeline
  */
 const API_URL = "https://lead-api.ismael-guijarro-raissouni.workers.dev"; // ← tu Worker/API
 
 (function () {
   const form = document.getElementById("lead-form");
+
+  // Campos
   const phone = document.getElementById("phone");
   const city = document.getElementById("city");
   const summary = document.getElementById("summary");
   const consent = document.getElementById("consent");
   const hp = document.getElementById("middle-name");
+
+  // UI
   const statusEl = document.getElementById("form-status");
   const submitBtn = document.getElementById("submit-btn");
   const countEl = document.getElementById("summary-count");
   const errorSummary = document.getElementById("error-summary");
   const errorList = document.getElementById("error-list");
+
+  // Stepper UI
+  const steps = Array.from(document.querySelectorAll(".stepper .step"));
+  const next1 = document.getElementById("next-1");
+  const next2 = document.getElementById("next-2");
+  const back2 = document.getElementById("back-2");
+  const back3 = document.getElementById("back-3");
+  let activeIndex = 0;
 
   // Año
   const yearEl = document.getElementById("year");
@@ -49,8 +62,10 @@ const API_URL = "https://lead-api.ismael-guijarro-raissouni.workers.dev"; // ←
     }
   };
   const disableForm = (disabled) => {
-    submitBtn.disabled = disabled;
-    submitBtn.setAttribute("aria-busy", String(disabled));
+    if (submitBtn) {
+      submitBtn.disabled = disabled;
+      submitBtn.setAttribute("aria-busy", String(disabled));
+    }
   };
   const addErrorToSummary = (fieldId, message) => {
     if (!errorSummary || !errorList) return;
@@ -63,24 +78,46 @@ const API_URL = "https://lead-api.ismael-guijarro-raissouni.workers.dev"; // ←
     errorSummary.hidden = false;
   };
 
-  // Contador inicial
-  if (countEl && summary) countEl.textContent = `${summary.value.length}/1000`;
-
-  // Validación inline (tel)
-  if (phone) {
-    phone.addEventListener("blur", () => {
-      const digits = onlyDigits(phone.value);
-      if (digits.length < 8 || digits.length > 15) {
-        setError("phone-error", "Entrez un téléphone valide (8–15 chiffres).");
-        phone.setAttribute("aria-invalid", "true");
-      } else {
-        setError("phone-error", "");
-        phone.removeAttribute("aria-invalid");
-      }
+  // Stepper helpers
+  function showStep(i) {
+    steps.forEach((s, idx) => {
+      s.classList.toggle("is-active", idx === i);
+      s.classList.toggle("is-complete", idx < i);
+      s.setAttribute("aria-expanded", idx === i ? "true" : "false");
     });
+    activeIndex = i;
+    const focusable = steps[i].querySelector("input, select, textarea, button");
+    if (focusable) focusable.focus({ preventScroll: true });
+    steps[i].scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
-  // Résumé: contador + validación mínima
+  function validateStep1() {
+    const digits = onlyDigits(phone.value);
+    if (!digits || digits.length < 8 || digits.length > 15) {
+      const msg = "Téléphone invalide (8–15 chiffres).";
+      setError("phone-error", msg);
+      phone.setAttribute("aria-invalid", "true");
+      return false;
+    }
+    setError("phone-error", "");
+    phone.removeAttribute("aria-invalid");
+    return true;
+  }
+
+  function validateStep2() {
+    if (!city.value) {
+      const msg = "Sélectionnez votre ville.";
+      setError("city-error", msg);
+      city.setAttribute("aria-invalid", "true");
+      return false;
+    }
+    setError("city-error", "");
+    city.removeAttribute("aria-invalid");
+    return true;
+  }
+
+  // Contador inicial
+  if (countEl && summary) countEl.textContent = `${summary.value.length}/1000`;
   if (summary) {
     const updateCount = () => { if (countEl) countEl.textContent = `${summary.value.length}/1000`; };
     summary.addEventListener("input", () => {
@@ -96,7 +133,39 @@ const API_URL = "https://lead-api.ismael-guijarro-raissouni.workers.dev"; // ←
     updateCount();
   }
 
-  // Envío
+  // Eventos Stepper
+  if (next1) next1.addEventListener("click", () => {
+    clearErrors();
+    if (!validateStep1()) {
+      addErrorToSummary("phone", "Téléphone invalide (8–15 chiffres).");
+      errorSummary.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+    showStep(1); // Étape 2
+  });
+
+  if (next2) next2.addEventListener("click", () => {
+    clearErrors();
+    if (!validateStep2()) {
+      addErrorToSummary("city", "Sélectionnez votre ville.");
+      errorSummary.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+    showStep(2); // Étape 3
+  });
+
+  if (back2) back2.addEventListener("click", () => showStep(0));
+  if (back3) back3.addEventListener("click", () => showStep(1));
+
+  // Enter → siguiente paso en 1 y 2
+  if (phone) phone.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") { e.preventDefault(); next1?.click(); }
+  });
+  if (city) city.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") { e.preventDefault(); next2?.click(); }
+  });
+
+  // Envío final
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -105,21 +174,17 @@ const API_URL = "https://lead-api.ismael-guijarro-raissouni.workers.dev"; // ←
       // Honeypot
       if (hp && hp.value) return;
 
-      // Validación mínima
+      // Validación completa
       let hasError = false;
-      const digits = onlyDigits(phone.value);
-      if (!digits || digits.length < 8 || digits.length > 15) {
-        const msg = "Téléphone invalide (8–15 chiffres).";
-        setError("phone-error", msg);
-        phone.setAttribute("aria-invalid", "true");
-        addErrorToSummary("phone", msg);
+
+      if (!validateStep1()) {
+        addErrorToSummary("phone", "Téléphone invalide (8–15 chiffres).");
+        showStep(0);
         hasError = true;
       }
-      if (!city.value) {
-        const msg = "Sélectionnez votre ville.";
-        setError("city-error", msg);
-        city.setAttribute("aria-invalid", "true");
-        addErrorToSummary("city", msg);
+      if (!validateStep2()) {
+        addErrorToSummary("city", "Sélectionnez votre ville.");
+        if (!hasError) showStep(1);
         hasError = true;
       }
       if (!summary.value || summary.value.length < 20) {
@@ -127,19 +192,18 @@ const API_URL = "https://lead-api.ismael-guijarro-raissouni.workers.dev"; // ←
         setError("summary-error", msg);
         summary.setAttribute("aria-invalid", "true");
         addErrorToSummary("summary", msg);
+        if (!hasError) showStep(2);
         hasError = true;
       }
       if (!consent.checked) {
+        showStep(2);
         statusEl.hidden = false;
         statusEl.textContent = "Vous devez accepter la politique de confidentialité.";
         return;
       }
 
       if (hasError) {
-        if (errorSummary) {
-          errorSummary.scrollIntoView({ behavior: "smooth", block: "start" });
-          errorSummary.focus?.();
-        }
+        errorSummary.scrollIntoView({ behavior: "smooth", block: "start" });
         return;
       }
 
@@ -188,6 +252,7 @@ const API_URL = "https://lead-api.ismael-guijarro-raissouni.workers.dev"; // ←
 
         statusEl.textContent = "Merci ! Nous vous recontacterons très vite.";
         form.reset();
+        showStep(0); // vuelve al inicio
         if (countEl) countEl.textContent = "0/1000";
       } catch (err) {
         statusEl.textContent = "Un problème est survenu lors de l’envoi. Réessayez.";
