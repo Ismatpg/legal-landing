@@ -9,7 +9,7 @@
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://ismatpg.github.io/legal-landing//" />
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
-  <meta name="theme-color" content="#0d6efd" />
+  <meta name="theme-color" content="#2563EB" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Un problème juridique ? Parlons-en" />
@@ -17,30 +17,27 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://TU_USUARIO.github.io/TU_REPO/" />
   <meta property="og:image" content="https://TU_USUARIO.github.io/TU_REPO/assets/img/og-image.svg" />
-
-  <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Un problème juridique ? Parlons-en" />
-  <meta name="twitter:description" content="Laissez-nous votre téléphone, votre ville et un bref résumé. Nous vous rappelons pour évaluer votre dossier." />
-  <meta name="twitter:image" content="https://TU_USUARIO.github.io/TU_REPO/assets/img/og-image.svg" />
 
-  <!-- Performance -->
+  <!-- Performance: fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=Source+Serif+4:opsz,wght@8..60,400..700&display=swap" rel="stylesheet">
+
+  <!-- Pico.css + estilos -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-
-  <!-- Pico.css + estilos del sitio -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
   <link rel="stylesheet" href="assets/css/styles.css" />
 
-  <!-- Cloudflare Turnstile -->
+  <!-- Turnstile -->
   <script defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
-
   <!-- JS del sitio -->
   <script defer src="assets/js/main.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#contenu">Aller au contenu</a>
 
-  <header class="container">
+  <header class="container site-header">
     <nav>
       <a href="./" aria-label="Accueil" class="brand"><strong>[Votre Cabinet]</strong></a>
       <ul>
@@ -53,109 +50,123 @@
 
   <main id="contenu" class="container">
     <section class="hero">
-      <!-- Capa visual de fondo con scrim y (opcional) parallax -->
+      <!-- Fondo responsive + scrim + parallax -->
       <div class="hero-media parallax" aria-hidden="true">
         <picture>
-          <!-- AVIF (recomendado) -->
           <source type="image/avif"
                   srcset="assets/img/hero-1280.avif 1280w, assets/img/hero-1920.avif 1920w"
                   sizes="(max-width: 980px) 100vw, 50vw">
-          <!-- WEBP fallback -->
           <source type="image/webp"
                   srcset="assets/img/hero-1280.webp 1280w, assets/img/hero-1920.webp 1920w"
                   sizes="(max-width: 980px) 100vw, 50vw">
-          <!-- JPEG fallback -->
           <img src="assets/img/hero-1280.jpg" width="1280" height="800" alt=""
                decoding="async" loading="eager" fetchpriority="high">
         </picture>
+        <div class="hero-scrim" aria-hidden="true"></div>
       </div>
 
-      <div class="hero-content">
-        <h1>Un problème juridique ?<br><span class="accent">Nous vous rappelons et vous orientons</span></h1>
-        <p class="lead">Laissez‑nous votre téléphone, votre ville et un bref résumé. Un avocat vous contactera pour une première évaluation sans engagement.</p>
-        <ul class="trust" aria-label="Éléments de confiance">
-          <li>Réponse &lt; 24&nbsp;h</li>
-          <li>Confidentiel et sécurisé</li>
-          <li>+1&nbsp;000 dossiers traités</li>
-        </ul>
-      </div>
+      <div class="hero-inner">
+        <!-- Lado texto -->
+        <div class="hero-content">
+          <h1>Un problème juridique ?<br><span class="accent">Nous vous rappelons et vous orientons</span></h1>
+          <p class="lead">Laissez‑nous votre téléphone, votre ville et un bref résumé. Un avocat vous contactera pour une première évaluation sans engagement.</p>
 
-      <div class="card form-card" aria-labelledby="form-title" aria-describedby="form-desc">
-        <h2 id="form-title" class="form-title">Réservez votre appel</h2>
-        <p id="form-desc" class="form-desc">Cela ne prend que 2&nbsp;minutes. Nous ne partagerons pas vos informations sans votre accord.</p>
-
-        <!-- Resumen de errores accesible (se muestra solo si hay errores) -->
-        <div id="error-summary" class="error-summary" role="alert" aria-live="polite" hidden>
-          <h3>Veuillez corriger les erreurs suivantes :</h3>
-          <ul id="error-list"></ul>
+          <ul class="badges" aria-label="Éléments de confiance">
+            <li class="badge">
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-width="2" d="m5 13 4 4L19 7"/>
+              </svg> Réponse &lt; 24&nbsp;h
+            </li>
+            <li class="badge">
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-width="2" d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path stroke-width="2" d="M20 13a8 8 0 1 1-16 0V9a8 8 0 1 1 16 0z"/>
+              </svg> Confidentiel & sécurisé
+            </li>
+            <li class="badge">
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-width="2" d="M8 7h8M8 12h8M8 17h5M4 5h16v14H4z"/>
+              </svg> +1&nbsp;000 dossiers traités
+            </li>
+          </ul>
         </div>
 
-        <form id="lead-form" class="lead-form" method="post" action="0x4AAAAAABsHVC6en8g2oW31" novalidate>
-          <!-- Téléphone (floating label + ejemplo en placeholder) -->
-          <div class="field floating">
-            <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required
-                   placeholder="+212 6 12 34 56 78"
-                   aria-describedby="phone-hint phone-error" />
-            <label for="phone">Téléphone</label>
-            <small id="phone-hint" class="hint">Espaces et tirets acceptés.</small>
-            <small id="phone-error" class="error" role="alert" aria-live="polite"></small>
+        <!-- Lado formulario -->
+        <aside class="card form-card" aria-labelledby="form-title" aria-describedby="form-desc">
+          <h2 id="form-title" class="form-title">Réservez votre appel</h2>
+          <p id="form-desc" class="form-desc">Cela ne prend que 2&nbsp;minutes. Nous ne partagerons pas vos informations sans votre accord.</p>
+
+          <!-- Resumen de errores accesible -->
+          <div id="error-summary" class="error-summary" role="alert" aria-live="polite" hidden>
+            <h3>Veuillez corriger les erreurs suivantes :</h3>
+            <ul id="error-list"></ul>
           </div>
 
-          <!-- Ville (etiqueta normal; select no usa floating para evitar duplicación visual) -->
-          <div class="field">
-            <label for="city">Ville <abbr title="obligatoire" aria-label="obligatoire">*</abbr></label>
-            <select id="city" name="city" required aria-describedby="city-error" autocomplete="address-level2">
-              <option value="" selected disabled>Sélectionnez votre ville</option>
-              <!-- Principales villes du Maroc -->
-              <option>Casablanca</option><option>Rabat</option><option>Salé</option><option>Fès</option>
-              <option>Marrakech</option><option>Tanger</option><option>Agadir</option><option>Meknès</option>
-              <option>Oujda</option><option>Kénitra</option><option>Tétouan</option><option>Mohammédia</option>
-              <option>Safi</option><option>Khouribga</option><option>Béni Mellal</option><option>Nador</option>
-              <option>Témara</option><option>El Jadida</option><option>Settat</option><option>Taza</option>
-              <option>Larache</option><option>Ksar El‑Kébir</option><option>Ouarzazate</option><option>Errachidia</option>
-              <option>Essaouira</option><option>Taroudant</option><option>Al Hoceïma</option><option>Guelmim</option>
-              <option>Berkane</option><option>Laâyoune</option><option>Dakhla</option>
-            </select>
-            <small id="city-error" class="error" role="alert" aria-live="polite"></small>
-          </div>
+          <form id="lead-form" class="lead-form form-grid" method="post" action="0x4AAAAAABsHVC6en8g2oW31" novalidate>
+            <!-- Téléphone (floating + ejemplo) -->
+            <div class="field floating">
+              <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required
+                     placeholder="+212 6 12 34 56 78"
+                     aria-describedby="phone-hint phone-error" />
+              <label for="phone">Téléphone</label>
+              <small id="phone-hint" class="hint">Espaces et tirets acceptés.</small>
+              <small id="phone-error" class="error" role="alert" aria-live="polite"></small>
+            </div>
 
-          <!-- Résumé (floating label + ejemplo + contador; hint solo al foco) -->
-          <div class="field floating">
-            <textarea id="summary" name="summary" rows="5" minlength="20" maxlength="1000" required
-                      placeholder="Ex.: litige emploi — licenciement le 10/03; objectif: indemnité"
-                      aria-describedby="summary-hint summary-error summary-count"></textarea>
-            <label for="summary">Résumé</label>
-            <small id="summary-hint" class="hint">Min. 20 caractères.</small>
-            <small id="summary-error" class="error" role="alert" aria-live="polite"></small>
-            <small id="summary-count" class="count" aria-live="polite">0/1000</small>
-          </div>
+            <!-- Ville (select clásico para claridad) -->
+            <div class="field">
+              <label for="city">Ville <abbr title="obligatoire" aria-label="obligatoire">*</abbr></label>
+              <select id="city" name="city" required aria-describedby="city-error" autocomplete="address-level2">
+                <option value="" selected disabled>Sélectionnez votre ville</option>
+                <option>Casablanca</option><option>Rabat</option><option>Salé</option><option>Fès</option>
+                <option>Marrakech</option><option>Tanger</option><option>Agadir</option><option>Meknès</option>
+                <option>Oujda</option><option>Kénitra</option><option>Tétouan</option><option>Mohammédia</option>
+                <option>Safi</option><option>Khouribga</option><option>Béni Mellal</option><option>Nador</option>
+                <option>Témara</option><option>El Jadida</option><option>Settat</option><option>Taza</option>
+                <option>Larache</option><option>Ksar El‑Kébir</option><option>Ouarzazate</option><option>Errachidia</option>
+                <option>Essaouira</option><option>Taroudant</option><option>Al Hoceïma</option><option>Guelmim</option>
+                <option>Berkane</option><option>Laâyoune</option><option>Dakhla</option>
+              </select>
+              <small id="city-error" class="error" role="alert" aria-live="polite"></small>
+            </div>
 
-          <!-- Anti‑spam -->
-          <input type="text" id="middle-name" name="middle_name" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" placeholder="Ne pas remplir" />
+            <!-- Résumé (floating + ejemplo + contador) -->
+            <div class="field floating">
+              <textarea id="summary" name="summary" rows="5" minlength="20" maxlength="1000" required
+                        placeholder="Ex.: litige emploi — licenciement le 10/03; objectif: indemnité"
+                        aria-describedby="summary-hint summary-error summary-count"></textarea>
+              <label for="summary">Résumé</label>
+              <small id="summary-hint" class="hint">Min. 20 caractères.</small>
+              <small id="summary-error" class="error" role="alert" aria-live="polite"></small>
+              <small id="summary-count" class="count" aria-live="polite">0/1000</small>
+            </div>
 
-          <!-- Tracking -->
-          <input type="hidden" name="utm_source" id="utm_source" />
-          <input type="hidden" name="utm_medium" id="utm_medium" />
-          <input type="hidden" name="utm_campaign" id="utm_campaign" />
-          <input type="hidden" name="utm_term" id="utm_term" />
-          <input type="hidden" name="utm_content" id="utm_content" />
-          <input type="hidden" name="gclid" id="gclid" />
+            <!-- Anti‑spam -->
+            <input type="text" id="middle-name" name="middle_name" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" placeholder="Ne pas remplir" />
 
-          <!-- Turnstile -->
-          <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY" data-theme="light"></div>
+            <!-- Tracking -->
+            <input type="hidden" name="utm_source" id="utm_source" />
+            <input type="hidden" name="utm_medium" id="utm_medium" />
+            <input type="hidden" name="utm_campaign" id="utm_campaign" />
+            <input type="hidden" name="utm_term" id="utm_term" />
+            <input type="hidden" name="utm_content" id="utm_content" />
+            <input type="hidden" name="gclid" id="gclid" />
 
-          <label class="checkbox">
-            <input type="checkbox" id="consent" name="consent" required />
-            <span>J’accepte la <a href="privacidad.html" target="_blank" rel="noopener noreferrer">politique de confidentialité</a> et les <a href="terminos.html" target="_blank" rel="noopener noreferrer">mentions légales</a>.</span>
-          </label>
+            <!-- Turnstile -->
+            <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY" data-theme="light"></div>
 
-          <button type="submit" id="submit-btn" class="primary">Demander un appel</button>
-          <p id="form-status" class="status" role="status" aria-live="polite" hidden></p>
+            <label class="checkbox">
+              <input type="checkbox" id="consent" name="consent" required />
+              <span>J’accepte la <a href="privacidad.html" target="_blank" rel="noopener noreferrer">politique de confidentialité</a> et les <a href="terminos.html" target="_blank" rel="noopener noreferrer">mentions légales</a>.</span>
+            </label>
 
-          <noscript><p class="noscript">Activez JavaScript pour envoyer le formulaire.</p></noscript>
-        </form>
+            <button type="submit" id="submit-btn" class="primary cta-primary cta-sticky">Demander un appel</button>
+            <p id="form-status" class="status" role="status" aria-live="polite" hidden></p>
 
-        <p class="legal-hint">Ce site ne fournit pas de conseil juridique. L’envoi du formulaire ne crée pas de relation avocat‑client.</p>
+            <noscript><p class="noscript">Activez JavaScript pour envoyer le formulaire.</p></noscript>
+          </form>
+
+          <p class="legal-hint">Ce site ne fournit pas de conseil juridique. L’envoi du formulaire ne crée pas de relation avocat‑client.</p>
+        </aside>
       </div>
     </section>
 
