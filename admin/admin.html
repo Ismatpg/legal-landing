@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es" class="no-js">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Panel | Admin Leads</title>
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="/legal-landing/assets/css/styles.css?v=23">
+</head>
+<body>
+  <header class="container site-header" style="margin-top:1rem">
+    <nav>
+      <strong>Panel de administración</strong>
+      <ul>
+        <li><button id="btn-logout" class="secondary btn-secondary">Cerrar sesión</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container" style="margin-top:1rem">
+    <!-- Email por defecto -->
+    <section class="form-card">
+      <h2 class="form-title">Email por defecto</h2>
+      <p class="form-desc">Si una ciudad no tiene regla, se enviará a este email.</p>
+
+      <form id="form-default">
+        <fieldset class="floating">
+          <input id="default_email" name="default_email" placeholder="leads@tucorreo.com" required>
+          <label for="default_email">Email por defecto</label>
+        </fieldset>
+        <button class="primary" type="submit">Guardar</button>
+        <small id="default-status" class="error" aria-live="polite"></small>
+      </form>
+    </section>
+
+    <!-- Reglas de ruteo -->
+    <section class="form-card" style="margin-top:1rem">
+      <h2 class="form-title">Reglas de ruteo por ciudad</h2>
+      <p class="form-desc">Asocia una o varias ciudades a uno o varios emails (separados por coma).</p>
+
+      <form id="form-rule">
+        <fieldset class="floating">
+          <input id="cities" name="cities" placeholder="Casablanca, Rabat" required>
+          <label for="cities">Ciudad(es)</label>
+        </fieldset>
+        <fieldset class="floating">
+          <input id="emails" name="emails" placeholder="abogados@ejemplo.com, central@ejemplo.com" required>
+          <label for="emails">Email(s) destino</label>
+        </fieldset>
+        <button class="primary" type="submit">Añadir / Actualizar</button>
+        <small id="rule-status" class="error" aria-live="polite"></small>
+      </form>
+
+      <hr>
+
+      <h3>Reglas actuales</h3>
+      <div class="table-responsive">
+        <table role="grid">
+          <thead><tr><th>Ciudad</th><th>Email(s)</th><th></th></tr></thead>
+          <tbody id="routes-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Leads recientes -->
+    <section class="form-card" style="margin-top:1rem">
+      <h2 class="form-title">Leads recientes</h2>
+      <p class="form-desc">Últimos 50 registros.</p>
+      <div class="table-responsive">
+        <table role="grid">
+          <thead><tr><th>Fecha</th><th>Teléfono</th><th>Ciudad</th><th>Resumen</th></tr></thead>
+          <tbody id="leads-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script defer src="/legal-landing/assets/js/admin.js?v=23"></script>
+</body>
+</html>
