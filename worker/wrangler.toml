@@ -8,8 +8,8 @@ workers_dev = true               # sin routes ni custom domains aquí
 # --- Enlaces/bindings que ya usabas ---
 [[d1_databases]]
 binding = "DB"
-database_name = "legal_leads"    # tu D1
-database_id = "REEMPLAZA_CON_TU_ID"
+database_name = "database"    # tu D1
+database_id = "8879e33a-4762-489e-a61f-9506bf1d97f9"
 
 # Si usabas vars públicas (no secretos), puedes declararlas aquí:
   [vars]
@@ -17,3 +17,4 @@ database_id = "REEMPLAZA_CON_TU_ID"
  MAIL_FROM = "no-reply@example.com"
  DEFAULT_EMAIL = "leads@example.com"
  ALLOWED_ORIGINS = "https://ismatpg.github.io"
+
