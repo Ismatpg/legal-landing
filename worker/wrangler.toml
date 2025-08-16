@@ -18,4 +18,5 @@ ALLOWED_ORIGINS = "https://ismatpg.github.io" # separa por comas si hay varias
 [[d1_databases]]
 binding = "DB"
 database_name = "legal_leads"
-database_id = "REPLACE_WITH_YOUR_D1_ID"
+database_id = "8879e33a-4762-489e-a61f-9506bf1d97f9"
+
