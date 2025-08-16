@@ -1,13 +1,13 @@
 "use strict";
 
 /**
- * Versión para GitHub Pages:
- * - Rutas relativas para assets.
- * - Envío del formulario a una API externa (CORS) vía fetch.
- *   Cambia API_URL por la URL real de tu backend (Render/Fly/Railway/…).
+ * Version FR/MA con:
+ * - Validación inline y resumen de errores accesible
+ * - Contador de caracteres
+ * - Envío a API externa (CORS)
+ * - Fallback de parallax si no hay scroll‑driven CSS
  */
-
-const API_URL = "https://TU_API.example.com/api/leads";
+const API_URL = "  https://lead-api.ismael-guijarro-raissouni.workers.dev"; // ← cambia por tu Worker/API
 
 (function () {
   const form = document.getElementById("lead-form");
@@ -18,8 +18,11 @@ const API_URL = "https://TU_API.example.com/api/leads";
   const hp = document.getElementById("middle-name");
   const statusEl = document.getElementById("form-status");
   const submitBtn = document.getElementById("submit-btn");
+  const countEl = document.getElementById("summary-count");
+  const errorSummary = document.getElementById("error-summary");
+  const errorList = document.getElementById("error-list");
 
-  // Año dinámico en footer
+  // Año dinámico
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
@@ -40,18 +43,35 @@ const API_URL = "https://TU_API.example.com/api/leads";
   const clearErrors = () => {
     ["phone-error","city-error","summary-error"].forEach(id => setError(id, ""));
     [phone, city, summary].forEach(i => i && i.removeAttribute("aria-invalid"));
+    if (errorSummary) {
+      errorSummary.hidden = true;
+      if (errorList) errorList.innerHTML = "";
+    }
   };
   const disableForm = (disabled) => {
     submitBtn.disabled = disabled;
     submitBtn.setAttribute("aria-busy", String(disabled));
   };
+  const addErrorToSummary = (fieldId, message) => {
+    if (!errorSummary || !errorList) return;
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.href = `#${fieldId}`;
+    a.textContent = message;
+    li.appendChild(a);
+    errorList.appendChild(li);
+    errorSummary.hidden = false;
+  };
 
-  // Validaciones on-blur / on-input
+  // Contador inicial
+  if (countEl && summary) countEl.textContent = `${summary.value.length}/1000`;
+
+  // Validación inline
   if (phone) {
     phone.addEventListener("blur", () => {
       const digits = onlyDigits(phone.value);
       if (digits.length < 8 || digits.length > 15) {
-        setError("phone-error", "Introduce un teléfono válido (8–15 dígitos).");
+        setError("phone-error", "Entrez un téléphone valide (8–15 chiffres).");
         phone.setAttribute("aria-invalid", "true");
       } else {
         setError("phone-error", "");
@@ -61,15 +81,18 @@ const API_URL = "https://TU_API.example.com/api/leads";
   }
 
   if (summary) {
+    const updateCount = () => { if (countEl) countEl.textContent = `${summary.value.length}/1000`; };
     summary.addEventListener("input", () => {
+      updateCount();
       if (summary.value && summary.value.length < 20) {
-        setError("summary-error", `Añade un poco más de detalle (${summary.value.length}/20).`);
+        setError("summary-error", `Ajoutez un peu plus de détail (${summary.value.length}/20).`);
         summary.setAttribute("aria-invalid", "true");
       } else {
         setError("summary-error", "");
         summary.removeAttribute("aria-invalid");
       }
     });
+    updateCount();
   }
 
   if (form) {
@@ -77,35 +100,49 @@ const API_URL = "https://TU_API.example.com/api/leads";
       e.preventDefault();
       clearErrors();
 
-      // Honeypot (antispam)
+      // Honeypot
       if (hp && hp.value) return;
 
       // Validación mínima
       let hasError = false;
       const digits = onlyDigits(phone.value);
       if (!digits || digits.length < 8 || digits.length > 15) {
-        setError("phone-error", "Introduce un teléfono válido (8–15 dígitos).");
+        const msg = "Téléphone invalide (8–15 chiffres).";
+        setError("phone-error", msg);
         phone.setAttribute("aria-invalid", "true");
+        addErrorToSummary("phone", msg);
         hasError = true;
       }
       if (!city.value) {
-        setError("city-error", "Selecciona tu ciudad.");
+        const msg = "Sélectionnez votre ville.";
+        setError("city-error", msg);
         city.setAttribute("aria-invalid", "true");
+        addErrorToSummary("city", msg);
         hasError = true;
       }
       if (!summary.value || summary.value.length < 20) {
-        setError("summary-error", "Cuéntanos al menos 20 caracteres.");
+        const msg = "Décrivez votre situation en au moins 20 caractères.";
+        setError("summary-error", msg);
         summary.setAttribute("aria-invalid", "true");
+        addErrorToSummary("summary", msg);
         hasError = true;
       }
       if (!consent.checked) {
         statusEl.hidden = false;
-        statusEl.textContent = "Debes aceptar el aviso de privacidad.";
+        statusEl.textContent = "Vous devez accepter la politique de confidentialité.";
         return;
       }
-      if (hasError) return;
 
-      // Token Turnstile (Cloudflare inserta un input oculto con el response)
+      if (hasError) {
+        // Lleva el foco al resumen de errores
+        if (errorSummary) {
+          errorSummary.scrollIntoView({ behavior: "smooth", block: "start" });
+          errorSummary.focus?.();
+        }
+        return;
+      }
+
+      // Token Turnstile (Cloudflare inserta input oculto)
       const cfTokenInput = form.querySelector('input[name="cf-turnstile-response"]');
       const cfToken = cfTokenInput ? cfTokenInput.value : "";
 
@@ -126,7 +163,7 @@ const API_URL = "https://TU_API.example.com/api/leads";
 
       disableForm(true);
       statusEl.hidden = false;
-      statusEl.textContent = "Enviando…";
+      statusEl.textContent = "Envoi en cours…";
 
       try {
         const res = await fetch(API_URL, {
@@ -138,23 +175,54 @@ const API_URL = "https://TU_API.example.com/api/leads";
         if (!res.ok) {
           const data = await res.json().catch(() => ({}));
           const code = data && (data.error || data.error_code);
-          let msg = "Ha ocurrido un problema al enviar. Intenta de nuevo.";
-          if (code === "PHONE_INVALID") msg = "Teléfono inválido. Revisa el número (8–15 dígitos).";
-          else if (code === "CITY_REQUIRED") msg = "Selecciona tu ciudad.";
-          else if (code === "SUMMARY_SHORT") msg = "El resumen es demasiado corto (mín. 20 caracteres).";
-          else if (code === "CONSENT_REQUIRED") msg = "Debes aceptar el aviso de privacidad.";
-          else if (code === "TURNSTILE_FAILED") msg = "No pudimos verificar que eres humano. Recarga la página.";
+          let msg = "Un problème est survenu lors de l’envoi. Réessayez.";
+          if (code === "PHONE_INVALID") msg = "Téléphone invalide (8–15 chiffres).";
+          else if (code === "CITY_REQUIRED") msg = "Sélectionnez votre ville.";
+          else if (code === "SUMMARY_SHORT") msg = "Résumé trop court (min. 20 caractères).";
+          else if (code === "CONSENT_REQUIRED") msg = "Vous devez accepter la politique de confidentialité.";
+          else if (code === "TURNSTILE_FAILED") msg = "La vérification anti‑bots a échoué. Rechargez la page.";
           statusEl.textContent = msg;
           return;
         }
 
-        statusEl.textContent = "¡Gracias! Te contactaremos en breve.";
+        statusEl.textContent = "Merci ! Nous vous recontacterons très vite.";
         form.reset();
+        if (countEl) countEl.textContent = "0/1000";
       } catch (err) {
-        statusEl.textContent = "Ha ocurrido un problema al enviar. Intenta de nuevo.";
+        statusEl.textContent = "Un problème est survenu lors de l’envoi. Réessayez.";
       } finally {
         disableForm(false);
       }
     });
   }
+
+  // === Parallax fallback ligero (si no hay scroll‑driven CSS y no se ha pedido reducir movimiento) ===
+  (function(){
+    const media = document.querySelector('.hero-media.parallax');
+    if (!media) return;
+    const supports = CSS && CSS.supports && CSS.supports('animation-timeline: view()');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (supports || reduce) return;
+
+    let raf, lastY = -1;
+    const speed = 0.08; // intensidad sutil
+
+    const onScroll = () => {
+      const rect = media.parentElement.getBoundingClientRect();
+      const vh = window.innerHeight || 0;
+      if (rect.bottom < 0 || rect.top > vh){
+        if (raf) cancelAnimationFrame(raf);
+        return;
+      }
+      const y = window.scrollY || window.pageYOffset;
+      if (y === lastY) { raf = requestAnimationFrame(onScroll); return; }
+      lastY = y;
+      const offset = (y * speed);
+      media.style.transform = `translate3d(0, ${-4 + (offset % 8)}%, 0)`; // entre -4% y +4%
+      raf = requestAnimationFrame(onScroll);
+    };
+
+    window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(onScroll); }, { passive: true });
+    onScroll();
+  })();
 })();
