@@ -1,20 +1,19 @@
 name = "lead-api"
-main = "src/index.js"
-compatibility_date = "2024-11-20"
-workers_dev = true
-migrations_dir = "migrations"
+main = "src/worker.js"           # o tu ruta real: src/index.ts/js
+compatibility_date = "2025-05-20"
+workers_dev = true               # sin routes ni custom domains aquí
 
-# 🔧 Esto evita que wrangler toque "script-settings" de logs.
-[observability]
-enabled = false
+# ⚠️ IMPORTANTE: NO añadas 'logpush' ni bloques [observability] aquí.
 
-[vars]
-MAIL_PROVIDER   = "resend"
-MAIL_FROM       = "no-reply@example.com"
-DEFAULT_EMAIL   = "leads@example.com"
-ALLOWED_ORIGINS = "https://ismatpg.github.io"
-
+# --- Enlaces/bindings que ya usabas ---
 [[d1_databases]]
-binding       = "DB"
-database_name = "legal_leads"
-database_id   = "REPLACE_WITH_YOUR_D1_ID"
+binding = "DB"
+database_name = "legal_leads"    # tu D1
+database_id = "REEMPLAZA_CON_TU_ID"
+
+# Si usabas vars públicas (no secretos), puedes declararlas aquí:
+  [vars]
+ MAIL_PROVIDER = "resend"
+ MAIL_FROM = "no-reply@example.com"
+ DEFAULT_EMAIL = "leads@example.com"
+ ALLOWED_ORIGINS = "https://ismatpg.github.io"
