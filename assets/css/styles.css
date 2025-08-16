@@ -1,26 +1,40 @@
-/* === Design system (FR/MA) con alto contraste en formulario === */
+/* === Design system (FR/MA) con alto contraste y parallax moderno === */
 
+/* Paleta y tipografía base */
 :root {
   --brand-1: #0d6efd;
   --brand-2: #0b5ed7;
 
   --bg-soft: hsl(220 20% 98%);
   --text-base: #0f172a;       /* muy oscuro, excelente legibilidad */
-  --text-muted: #475569;      /* para copy del layout (no del formulario) */
+  --text-muted: #475569;      /* para copy general */
   --radius: .75rem;
   --shadow-1: 0 10px 30px rgba(0,0,0,.06);
   --maxw: 1100px;
-  --gap: 2rem;
 
-  /* Campos del formulario (colores conformes AA) */
+  /* Campos del formulario (conformes AA) */
   --field-bg: #ffffff;        /* fondo blanco */
   --field-text: #0f172a;      /* texto oscuro */
   --field-border: #64748b;    /* borde ≈4.76:1 vs blanco */
   --field-border-hover: #475569;
-  --field-placeholder: #334155; /* más oscuro para legibilidad */
+  --field-placeholder: #334155; /* placeholder legible */
+
+  /* Escala de espacio (8‑pt) */
+  --space-1: .5rem;   /* 8px  : etiqueta→campo, ayudas */
+  --space-2: .75rem;  /* 12px */
+  --space-3: 1rem;    /* 16px */
+  --space-4: 1.5rem;  /* 24px : entre campos */
+  --space-5: 2rem;    /* 32px : entre grupos/antes del CTA */
+  --space-6: 2.5rem;  /* 40px */
+}
+@media (min-width: 640px){
+  :root{
+    --space-5: 2.5rem; /* 40px */
+    --space-6: 3rem;   /* 48px */
+  }
 }
 
-/* Tema oscuro del sitio, pero mantenemos la tarjeta del formulario en claro */
+/* Tema oscuro de la página (la tarjeta del form queda clara) */
 @media (prefers-color-scheme: dark) {
   :root {
     --bg-soft: hsl(220 10% 10%);
@@ -39,23 +53,50 @@ body { background-color: var(--bg-soft); color: var(--text-base); }
 }
 .skip-link:focus { position: static; width: auto; height: auto; padding: .5rem; background: #fff; border-radius: .25rem; }
 
-/* HERO */
+/* === Hero con imagen, scrim y parallax opcional === */
 .hero {
-  display: grid; gap: var(--gap); grid-template-columns: 1.1fr 0.9fr;
+  position: relative; isolation: isolate; overflow: clip;
+  display: grid; gap: 2rem; grid-template-columns: 1.1fr 0.9fr;
   align-items: start; padding-block: 2rem 3.25rem;
-  background:
-    radial-gradient(1200px 400px at 10% -20%, rgba(13,110,253,.12), transparent 60%),
-    radial-gradient(800px 300px at 90% -30%, rgba(13,110,253,.08), transparent 70%);
   border-radius: var(--radius);
 }
 @media (max-width: 980px) { .hero { grid-template-columns: 1fr; } }
 
+.hero-media{
+  position: absolute; inset: 0; z-index: -1;
+  overflow: hidden; transform: translateZ(0); will-change: transform;
+}
+.hero-media picture, .hero-media img{ width:100%; height:100%; display:block; object-fit:cover; }
+.hero-media::after{
+  /* Scrim para legibilidad */
+  content:""; position:absolute; inset:0;
+  background:
+    radial-gradient(1200px 400px at 20% 10%, rgba(13,110,253,.18), transparent 60%),
+    linear-gradient(90deg, rgba(15,23,42,.65) 0%, rgba(15,23,42,.35) 40%, rgba(15,23,42,.15) 70%, transparent 100%);
+}
+
+/* Parallax scroll‑driven CSS */
+@keyframes heroParallax { from{ transform: translateY(-4%);} to{ transform: translateY(4%);} }
+@supports (animation-timeline: view()) {
+  .hero-media.parallax{
+    animation-name: heroParallax;
+    animation-duration: 1ms;        /* timeline por scroll */
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: view();
+    animation-range: cover 0% cover 100%;
+  }
+}
+/* Respeta preferencia de reducir movimiento */
+@media (prefers-reduced-motion: reduce){
+  .hero-media.parallax{ animation: none !important; transform: none !important; }
+}
+
 .hero .lead { margin-bottom: .75rem; color: var(--text-muted); }
 .accent { color: var(--brand-1); }
-
-.trust { display: flex; gap: 1rem; padding: 0; list-style: none; color: var(--text-muted); flex-wrap: wrap; }
-.trust li { display: inline-flex; align-items: center; gap: .35rem; }
-.trust li::before { content: "✓"; color: var(--brand-1); }
+.trust { display:flex; gap:1rem; padding:0; list-style:none; color: var(--text-muted); flex-wrap:wrap; }
+.trust li { display:inline-flex; align-items:center; gap:.35rem; }
+.trust li::before { content:"✓"; color:var(--brand-1); }
 
 /* === Tarjeta del formulario: alto contraste total === */
 .form-card {
@@ -69,12 +110,9 @@ body { background-color: var(--bg-soft); color: var(--text-base); }
   --pico-form-element-hover-border-color: var(--field-border-hover);
   --pico-form-element-focus-color: var(--brand-1);
   --pico-form-element-placeholder-color: var(--field-placeholder);
-
-  /* Clave: elimina “muted” gris de títulos, párrafos y small */
-  --pico-muted-color: var(--text-base);
+  --pico-muted-color: var(--text-base); /* elimina gris pálido por defecto */
 }
-
-/* Forzar que NO quede texto gris claro dentro del formulario */
+/* Forzar que no quede texto gris claro dentro del formulario */
 .form-card :is(h1,h2,h3,h4,h5,h6,p,small:not(.error),label,legend,summary) {
   color: var(--text-base) !important;
   opacity: 1 !important;
@@ -91,18 +129,22 @@ body { background-color: var(--bg-soft); color: var(--text-base); }
   background-color: var(--field-bg);
   color: var(--field-text);
   border: 1px solid var(--field-border);
+  min-height: 44px;
 }
 .form-card input::placeholder,
 .form-card textarea::placeholder { color: var(--field-placeholder); opacity: 1; }
 
-.hint { /* si quisieras mantenerla más suave, cámbiala a var(--text-muted) */
-  color: var(--text-base);
-}
-.count { color: var(--text-base); display: inline-block; margin-top: .25rem; }
-.error { color: #b00020; min-height: 1.25rem; display: inline-block; }
-.status { margin-top: .5rem; }
+/* Espaciado del formulario (escala 8‑pt) */
+.lead-form fieldset{ margin: 0 0 var(--space-4); padding: 0; border: 0; }
+.lead-form label{ display:block; margin: 0 0 var(--space-1); }
+.lead-form :is(input,select,textarea){ margin: 0 0 var(--space-1); }
+.lead-form .hint{ margin: 0 0 var(--space-1); }
+.lead-form .error{ margin: 0; }
+.lead-form .count{ margin-top: .25rem; }
+.lead-form .checkbox{ margin-top: var(--space-3); }
+#submit-btn{ margin-top: var(--space-5); }
 
-/* Estados */
+/* Estados de foco/errores */
 .form-card :is(input, select, textarea):focus {
   outline: 2px solid var(--brand-1);
   outline-offset: 2px;
@@ -113,23 +155,27 @@ body { background-color: var(--bg-soft); color: var(--text-base); }
   outline-color: #b00020 !important;
 }
 
-.checkbox { display: flex; gap: .5rem; align-items: flex-start; }
+.hint { color: var(--text-base); }
+.count { color: var(--text-base); display:inline-block; }
+.error { color: #b00020; min-height: 1.25rem; display:inline-block; }
+.status { margin-top: .5rem; }
 
-button.primary { background: var(--brand-1); border-color: var(--brand-1); }
-button.primary:where(:hover,:focus) { background: var(--brand-2); border-color: var(--brand-2); }
+/* Resumen de errores */
+.error-summary{
+  border: 2px solid #b00020; border-radius: .5rem; padding: .75rem 1rem;
+  background: #fff5f5; color: #3a0a0a; margin-bottom: var(--space-3);
+}
+.error-summary h3{ margin: 0 0 .25rem; font-size: 1rem; }
+.error-summary ul{ margin: 0; padding-left: 1rem; }
 
-/* Honeypot */
-.hp { position: absolute; left: -9999px; opacity: 0; }
-
-/* Pasos */
+/* Pasos y FAQ */
 .steps { padding-block: 2rem; }
-.steps-grid { display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); }
-@media (max-width: 980px) { .steps-grid { grid-template-columns: 1fr; } }
-.step { background: #fff; padding: 1rem; border-radius: var(--radius); box-shadow: var(--shadow-1); }
+.steps-grid { display:grid; gap:1rem; grid-template-columns: repeat(3,1fr); }
+@media (max-width: 980px){ .steps-grid{ grid-template-columns:1fr; } }
+.step { background:#fff; padding:1rem; border-radius:var(--radius); box-shadow: var(--shadow-1); }
 
-/* FAQ */
-.faq details { background: #fff; padding: .75rem 1rem; border-radius: var(--radius); margin-block: .5rem; box-shadow: var(--shadow-1); }
-.faq summary { font-weight: 600; }
+.faq details { background:#fff; padding:.75rem 1rem; border-radius:var(--radius); margin-block:.5rem; box-shadow: var(--shadow-1); }
+.faq summary { font-weight:600; }
 
 /* Footer */
 footer { padding-block: 2rem 3rem; color: var(--text-muted); }
@@ -143,7 +189,7 @@ footer { padding-block: 2rem 3rem; color: var(--text-muted); }
   .form-card:hover, .step:hover, .faq details:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,.08); }
 }
 
-/* Alto contraste si el usuario lo solicita */
+/* Alto contraste (opcional) */
 @media (prefers-contrast: more) {
   .form-card { --pico-form-element-border-color: #334155; }
   .form-card :is(input, select, textarea) { border-width: 2px; }
