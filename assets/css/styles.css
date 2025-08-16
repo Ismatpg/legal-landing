@@ -21,12 +21,12 @@
   --text-strong:#FFFFFF;
   --muted:#A7B0C0;
 
-  /* Campos (card claro) */
-  --field-bg:#F8FAFC;         /* NO blanco plano */
+  /* Campos (card claro) — BLANCO AZULADO */
+  --field-bg:#F5F8FF;           /* superficie azul suave, no blanco puro */
   --field-text:#0F172A;
-  --field-border:#CBD5E1;
-  --field-border-hover:#94A3B8;
-  --field-placeholder:#475569; /* legible */
+  --field-border:#B6C6E5;       /* borde con tinte azul */
+  --field-border-hover:#90A8D7; /* hover más visible */
+  --field-placeholder:#475569;  /* placeholder legible */
 
   /* Espaciado 8‑pt */
   --space-1:.5rem;  /* 8px  */
@@ -122,16 +122,16 @@ h3{ font-family: var(--ff-serif); font-weight: 700; color: var(--text-strong); }
 .badges{ display:flex; flex-wrap:wrap; gap: var(--space-2); padding:0; list-style:none; margin-top: var(--space-2); }
 .badge{ display:inline-flex; align-items:center; gap:.5rem; color:var(--text); background: rgba(255,255,255,.06); padding:.35rem .6rem; border-radius: 999px; }
 
-/* ===== FORM CARD (no blanco plano) */
+/* ===== FORM CARD (blanco azulado + menos espacio) */
 .form-card{
   position: relative;
   color:#0f172a;
   border-radius: var(--radius-3);
-  padding: var(--space-4);
+  padding: var(--space-3);                 /* ↓ 32 → 24 px */
   box-shadow: var(--shadow-1);
-  /* Superficie: degradado suave + glass (blur/borde) */
-  background: linear-gradient(180deg,#ffffff 0%, #F6FAFF 100%);
-  border: 1px solid rgba(15,23,42,.06);
+  /* Superficie: degradado BLANCO AZULADO */
+  background: linear-gradient(180deg,#F7FAFF 0%, #ECF3FF 100%);
+  border: 1px solid rgba(30,58,138,.08);
   backdrop-filter: saturate(120%) blur(6px);
   /* Overrides Pico solo dentro del card */
   --pico-form-element-background-color: var(--field-bg);
@@ -148,19 +148,19 @@ h3{ font-family: var(--ff-serif); font-weight: 700; color: var(--text-strong); }
 .form-title{ margin-bottom:.25rem; font-family: var(--ff-serif); }
 .form-desc{ margin-top:0; color:#334155; }
 
-/* Grid y espaciado */
-.form-grid{ display:grid; gap: var(--space-3); }
+/* Grid del formulario — MÁS COMPACTO */
+.form-grid{ display:grid; gap: var(--space-2); }  /* ↓ 24 → 16 px */
 .field{ position:relative; }
 
-/* Inputs: superficie suave + ring de foco */
+/* Inputs: superficie azulada + altura algo menor */
 .form-card input[type="text"],
 .form-card input[type="tel"],
 .form-card select,
 .form-card textarea{
-  background-color: var(--field-bg); /* NO blanco puro */
+  background-color: var(--field-bg);      /* azul suave */
   color: var(--field-text);
   border: 1px solid var(--field-border);
-  min-height: 48px;
+  min-height: 44px;                        /* ↓ 48 → 44 px */
   transition: box-shadow .15s ease, border-color .15s ease, background-color .15s ease;
 }
 .form-card :is(input,select,textarea):focus{
@@ -170,24 +170,20 @@ h3{ font-family: var(--ff-serif); font-weight: 700; color: var(--text-strong); }
 .form-card input::placeholder,
 .form-card textarea::placeholder{ color: var(--field-placeholder); }
 
-/* ===== Etiqueta flotante SIN solaparse con placeholder
-   - placeholder oculto por defecto
-   - aparece SOLO al foco
-   - la etiqueta flota en foco o con contenido
-*/
-.floating input, .floating textarea{ padding-top: 1.35rem; }
+/* ===== Etiqueta flotante ajustada y SIN solape con placeholder */
+.floating input, .floating textarea{ padding-top: 1.15rem; } /* ↓ 1.35 → 1.15 */
 .floating label{
-  position:absolute; left:.75rem; top:.85rem; pointer-events:none;
+  position:absolute; left:.75rem; top:.75rem; pointer-events:none; /* ↓ top */
   font-size:.95rem; line-height:1; color:#64748b; padding:0 .25rem; background:transparent;
   transform-origin:left top; transition: transform .18s ease, color .18s ease, top .18s ease, background-color .18s ease;
 }
-/* placeholder oculto hasta que hay foco → evita solape */
+/* placeholder oculto hasta foco → evita solape visual */
 .floating input::placeholder, .floating textarea::placeholder{ opacity: 0; transition: opacity .12s ease; }
 .floating input:focus::placeholder, .floating textarea:focus::placeholder{ opacity:.65; }
 /* La etiqueta flota en foco o cuando hay texto */
 .floating :is(input,textarea):focus + label,
 .floating :is(input,textarea):not(:placeholder-shown) + label{
-  top:.35rem; transform: translateY(-.35rem) scale(.88); color: var(--brand-700); background:#fff;
+  top:.3rem; transform: translateY(-.3rem) scale(.88); color: var(--brand-700); background:#F7FAFF; /* se integra con el card */
 }
 
 /* Hints: cero ruido visual; solo al foco */
@@ -197,13 +193,13 @@ h3{ font-family: var(--ff-serif); font-weight: 700; color: var(--text-strong); }
 /* Errores / count */
 :focus-visible{ outline:2px solid var(--brand-500); outline-offset:2px; border-radius:.25rem; }
 .form-card :is(input,select,textarea)[aria-invalid="true"]{ border-color:#b00020 !important; outline-color:#b00020 !important; box-shadow:none; }
-.error{ color:#b00020; min-height:1.25rem; display:inline-block; }
+.error{ color:#b00020; min-height:1.1rem; display:inline-block; } /* un pelín más compacta */
 .count{ color:#475569; }
 
 /* CTA */
 .cta-primary{
   background: var(--cta-grad); color:#fff; border:none;
-  padding:.95rem 1.25rem; border-radius:.75rem; font-weight: 600;
+  padding:.9rem 1.2rem; border-radius:.75rem; font-weight: 600;
   box-shadow: 0 8px 24px rgba(37,99,235,.35);
 }
 .cta-primary:hover{ filter: brightness(1.06); }
@@ -214,7 +210,7 @@ h3{ font-family: var(--ff-serif); font-weight: 700; color: var(--text-strong); }
 /* Resumen de errores */
 .error-summary{
   border:2px solid #b00020; border-radius:.5rem;
-  padding:.75rem 1rem; background:#fff5f5; color:#3a0a0a; margin-bottom: var(--space-2);
+  padding:.7rem 1rem; background:#fff5f5; color:#3a0a0a; margin-bottom: var(--space-2);
 }
 .error-summary h3{ margin:0 0 .25rem; font-size:1rem; }
 .error-summary ul{ margin:0; padding-left:1rem; }
