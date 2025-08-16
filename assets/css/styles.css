@@ -6,7 +6,7 @@
 
   --bg-soft: hsl(220 20% 98%);
   --text-base: #0f172a;       /* muy oscuro, excelente legibilidad */
-  --text-muted: #475569;      /* ≥ 4.5:1 sobre blanco */
+  --text-muted: #475569;      /* para copy del layout (no del formulario) */
   --radius: .75rem;
   --shadow-1: 0 10px 30px rgba(0,0,0,.06);
   --maxw: 1100px;
@@ -14,17 +14,17 @@
 
   /* Campos del formulario (colores conformes AA) */
   --field-bg: #ffffff;        /* fondo blanco */
-  --field-text: #0f172a;      /* texto oscuro (≈17.8:1 vs blanco) */
-  --field-border: #64748b;    /* borde ≈4.76:1 vs blanco (cumple 3:1) */
+  --field-text: #0f172a;      /* texto oscuro */
+  --field-border: #64748b;    /* borde ≈4.76:1 vs blanco */
   --field-border-hover: #475569;
-  --field-placeholder: #6b7280; /* ≥4.5:1 vs blanco */
+  --field-placeholder: #334155; /* más oscuro para legibilidad */
 }
 
 /* Tema oscuro del sitio, pero mantenemos la tarjeta del formulario en claro */
 @media (prefers-color-scheme: dark) {
   :root {
     --bg-soft: hsl(220 10% 10%);
-    --text-muted: #94a3b8; /* texto secundario del layout (no en el formulario) */
+    --text-muted: #94a3b8;
     --shadow-1: 0 10px 30px rgba(0,0,0,.4);
   }
 }
@@ -50,14 +50,14 @@ body { background-color: var(--bg-soft); color: var(--text-base); }
 }
 @media (max-width: 980px) { .hero { grid-template-columns: 1fr; } }
 
-.hero .lead { margin-bottom: .75rem; }
+.hero .lead { margin-bottom: .75rem; color: var(--text-muted); }
 .accent { color: var(--brand-1); }
 
 .trust { display: flex; gap: 1rem; padding: 0; list-style: none; color: var(--text-muted); flex-wrap: wrap; }
 .trust li { display: inline-flex; align-items: center; gap: .35rem; }
 .trust li::before { content: "✓"; color: var(--brand-1); }
 
-/* === Tarjeta del formulario con variables de Pico sobreescritas === */
+/* === Tarjeta del formulario: alto contraste total === */
 .form-card {
   background: #fff; color: var(--text-base);
   padding: 1.25rem; border-radius: var(--radius); box-shadow: var(--shadow-1);
@@ -69,11 +69,19 @@ body { background-color: var(--bg-soft); color: var(--text-base); }
   --pico-form-element-hover-border-color: var(--field-border-hover);
   --pico-form-element-focus-color: var(--brand-1);
   --pico-form-element-placeholder-color: var(--field-placeholder);
-  --pico-muted-color: var(--text-muted);
+
+  /* Clave: elimina “muted” gris de títulos, párrafos y small */
+  --pico-muted-color: var(--text-base);
 }
 
-.form-title { margin-bottom: .25rem; }
-.form-desc  { margin-top: 0; color: var(--text-muted); }
+/* Forzar que NO quede texto gris claro dentro del formulario */
+.form-card :is(h1,h2,h3,h4,h5,h6,p,small:not(.error),label,legend,summary) {
+  color: var(--text-base) !important;
+  opacity: 1 !important;
+}
+.form-title { margin-bottom: .25rem; font-weight: 700; }
+.form-desc  { margin-top: 0; }
+
 .form-card label { color: var(--text-base); font-weight: 600; }
 
 .form-card input[type="text"],
@@ -85,10 +93,12 @@ body { background-color: var(--bg-soft); color: var(--text-base); }
   border: 1px solid var(--field-border);
 }
 .form-card input::placeholder,
-.form-card textarea::placeholder { color: var(--field-placeholder); }
+.form-card textarea::placeholder { color: var(--field-placeholder); opacity: 1; }
 
-.hint { color: var(--text-muted); }
-.count { color: var(--text-muted); display: inline-block; margin-top: .25rem; }
+.hint { /* si quisieras mantenerla más suave, cámbiala a var(--text-muted) */
+  color: var(--text-base);
+}
+.count { color: var(--text-base); display: inline-block; margin-top: .25rem; }
 .error { color: #b00020; min-height: 1.25rem; display: inline-block; }
 .status { margin-top: .5rem; }
 
@@ -135,16 +145,14 @@ footer { padding-block: 2rem 3rem; color: var(--text-muted); }
 
 /* Alto contraste si el usuario lo solicita */
 @media (prefers-contrast: more) {
-  .form-card {
-    --pico-form-element-border-color: #334155; /* más oscuro */
-  }
+  .form-card { --pico-form-element-border-color: #334155; }
   .form-card :is(input, select, textarea) { border-width: 2px; }
 }
 
 /* Modo colores forzados (Windows) */
 @media (forced-colors: active) {
   .form-card :is(input, select, textarea) {
-    forced-color-adjust: auto; /* permite que el UA use colores del sistema */
+    forced-color-adjust: auto;
     border-width: 2px;
   }
 }
