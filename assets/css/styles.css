@@ -1,10 +1,19 @@
 /* ======================
-   Layout profesional y responsivo (FR/MA)
+   Layout profesional y responsivo — FR/MA
    ====================== */
 
 /* Normalización y box-sizing seguro */
 *,*::before,*::after{ box-sizing:border-box; }
 html{ -webkit-text-size-adjust:100%; }
+
+/* Utilidad accesible: oculto visualmente pero disponible para screen readers */
+.sr-only{
+  position:absolute !important;
+  width:1px !important; height:1px !important;
+  margin:-1px !important; padding:0 !important;
+  overflow:hidden !important; clip:rect(0 0 0 0) !important;
+  white-space:nowrap !important; border:0 !important;
+}
 
 :root{
   --ff-sans:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
@@ -67,10 +76,6 @@ h3{ font-family:var(--ff-serif); font-weight:700; color:var(--text-strong); }
 /* Header */
 .site-header nav a.brand{ text-decoration:none; color:var(--brand-400); }
 
-/* Skip link */
-.skip-link{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
-.skip-link:focus{ position:static; padding:.5rem; background:#fff; color:#000; border-radius:.25rem; }
-
 /* ===== HERO */
 .hero{
   position:relative; isolation:isolate; overflow:hidden;
@@ -96,12 +101,6 @@ h3{ font-family:var(--ff-serif); font-weight:700; color:var(--text-strong); }
     radial-gradient(1200px 400px at 20% 10%, rgba(37,99,235,.18), transparent 60%),
     linear-gradient(90deg, rgba(10,15,25,.72) 0%, rgba(10,15,25,.46) 40%, rgba(10,15,25,.20) 70%, rgba(10,15,25,.0) 100%);
 }
-
-/* Parallax si hay soporte */
-@keyframes heroParallax{ from{transform:translateY(-4%);} to{transform:translateY(4%);} }
-@supports (animation-timeline:view()){
-  .hero-media.parallax{ animation-name:heroParallax; animation-duration:1ms; animation-timing-function:linear; animation-fill-mode:both; animation-timeline:view(); animation-range:cover 0% cover 100%; }
-}
 @media (prefers-reduced-motion:reduce){ .hero-media.parallax{ animation:none !important; } }
 
 /* Badges */
@@ -117,10 +116,8 @@ h3{ font-family:var(--ff-serif); font-weight:700; color:var(--text-strong); }
   border:1px solid rgba(30,58,138,.08);
   backdrop-filter:saturate(120%) blur(6px);
 
-  /* CLIP SEGURO → NADA PUEDE SALIR DEL CARD */
+  /* Nada sale del card */
   overflow:hidden;
-  /* Fallback adicional en navegadores raros */
-  clip-path: inset(0 round var(--radius-3));
 
   /* Overrides Pico dentro del card */
   --pico-form-element-background-color:var(--field-bg);
@@ -135,42 +132,39 @@ h3{ font-family:var(--ff-serif); font-weight:700; color:var(--text-strong); }
 .form-title{ margin-bottom:.2rem; font-family:var(--ff-serif); }
 .form-desc{ margin-top:0; color:#334155; }
 
-/* ===== STEPPER (nada excede el card) */
-.stepper{ display:grid; gap:var(--space-2); max-width:100%; }
+/* ===== STEPPER (todo dentro y al 100%) */
+.lead-form, .stepper, .step, .step-header, .step-body, .step-actions{ min-width:0; max-width:100%; }
+.stepper{ display:grid; gap:var(--space-2); }
 .step{
   border:1px solid rgba(30,58,138,.10); border-radius:.75rem;
   background:linear-gradient(180deg, rgba(255,255,255,.88), rgba(246,250,255,.88));
   backdrop-filter:saturate(120%) blur(2px);
-  max-width:100%;
 }
-.step-header{ display:flex; align-items:center; gap:.6rem; padding:.65rem var(--space-2); max-width:100%; }
+.step-header{
+  display:flex; align-items:center; gap:.6rem;
+  padding:.65rem var(--space-2);
+}
 .step-index{
   width:24px; height:24px; border-radius:50%; background:var(--brand-600); color:#fff;
   font-weight:700; display:grid; place-items:center; font-size:.85rem; flex:0 0 auto;
 }
-.step.is-complete .step-index{ background:#22C55E; }
-.step-title{ margin:0; color:#0f172a; font-size:clamp(1rem,.6vw + .9rem,1.125rem); }
 .step-body{
-  overflow:hidden; max-height:0; max-width:100%;
+  overflow:hidden; max-height:0;
   padding:0 var(--space-2);
   transition:max-height .35s ease, padding-top .35s ease, padding-bottom .35s ease;
 }
 .step.is-active .step-body{ max-height:1000px; padding:var(--space-2); }
+
+/* Acciones: alineadas a la izquierda para evitar cortes */
 .step-actions{
-  display:flex; gap:.5rem; justify-content:flex-end; padding:0 var(--space-2) var(--space-2);
-  max-width:100%;
+  display:flex; gap:.5rem; justify-content:flex-start; align-items:center;
+  padding:0 var(--space-2) var(--space-2);
+  flex-wrap:wrap;
 }
-.step-actions > *{ max-width:100%; }
 
-/* Sin JS: todos los pasos abiertos */
-.no-js .step .step-body{ max-height:none !important; padding:var(--space-2) !important; }
-
-/* ===== Inputs compactos y al 100% */
+/* Inputs 100% y seguros */
 .field{ position:relative; max-width:100%; }
-.form-card input[type="text"],
-.form-card input[type="tel"],
-.form-card select,
-.form-card textarea{
+.form-card input[type="text"], .form-card input[type="tel"], .form-card select, .form-card textarea{
   background-color:var(--field-bg); color:var(--field-text);
   border:1px solid var(--field-border); min-height:44px;
   transition:box-shadow .15s ease, border-color .15s ease, background-color .15s ease;
@@ -187,6 +181,7 @@ h3{ font-family:var(--ff-serif); font-weight:700; color:var(--text-strong); }
   position:absolute; left:.75rem; top:.72rem; pointer-events:none;
   font-size:.94rem; line-height:1; color:#64748b; padding:0 .25rem; background:transparent;
   transform-origin:left top; transition:transform .18s ease, color .18s ease, top .18s ease, background-color .18s ease;
+  max-width:calc(100% - 1.5rem);
 }
 .floating input::placeholder, .floating textarea::placeholder{ opacity:0; transition:opacity .12s ease; }
 .floating input:focus::placeholder, .floating textarea:focus::placeholder{ opacity:.65; }
@@ -205,7 +200,7 @@ h3{ font-family:var(--ff-serif); font-weight:700; color:var(--text-strong); }
 
 /* Turnstile responsivo — nunca excede el ancho */
 .cf-turnstile{ width:100%; max-width:100%; overflow:hidden; }
-.cf-turnstile iframe{ max-width:100% !important; }
+.cf-turnstile iframe{ display:block; width:100% !important; max-width:100% !important; }
 
 /* Honeypot oculto */
 .hp{ position:absolute; left:-9999px; width:1px; height:1px; opacity:0; pointer-events:none; }
