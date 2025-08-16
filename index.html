@@ -1,107 +1,134 @@
 <!doctype html>
-<html lang="es">
+<html lang="fr">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>[Tu Despacho] — Consulta gratuita para evaluar tu caso</title>
-  <meta name="description" content="Cuéntanos tu caso legal en 2 minutos. Un abogado te contactará para una primera evaluación sin compromiso." />
+  <title>[Votre Cabinet] — Appel gratuit pour évaluer votre dossier</title>
+  <meta name="description" content="Décrivez votre situation en 2 minutes. Un avocat vous contactera pour une première évaluation sans engagement." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://ismatpg.github.io/legal-landing/" />
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
   <meta name="theme-color" content="#0d6efd" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="¿Tienes un problema legal? Hablemos" />
-  <meta property="og:description" content="Déjanos tu teléfono, ciudad y un breve resumen. Te llamamos para evaluar tu caso." />
+  <meta property="og:title" content="Un problème juridique ? Parlons-en" />
+  <meta property="og:description" content="Laissez-nous votre téléphone, votre ville et un bref résumé. Nous vous rappelons pour évaluer votre dossier." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://TU_USUARIO.github.io/TU_REPO/" />
   <meta property="og:image" content="https://TU_USUARIO.github.io/TU_REPO/assets/img/og-image.svg" />
 
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="¿Tienes un problema legal? Hablemos" />
-  <meta name="twitter:description" content="Déjanos tu teléfono, ciudad y un breve resumen. Te llamamos para evaluar tu caso." />
+  <meta name="twitter:title" content="Un problème juridique ? Parlons-en" />
+  <meta name="twitter:description" content="Laissez-nous votre téléphone, votre ville et un bref résumé. Nous vous rappelons pour évaluer votre dossier." />
   <meta name="twitter:image" content="https://TU_USUARIO.github.io/TU_REPO/assets/img/og-image.svg" />
 
-  <!-- Rendimiento -->
+  <!-- Performance -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 
-  <!-- Pico.css (UI minimalista y accesible) -->
+  <!-- Pico.css -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
   <link rel="stylesheet" href="assets/css/styles.css" />
 
-  <!-- Turnstile (Cloudflare) -->
+  <!-- Cloudflare Turnstile -->
   <script defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
 
-  <!-- JS de la página -->
+  <!-- JS -->
   <script defer src="assets/js/main.js"></script>
 </head>
 <body>
-  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
 
   <header class="container">
     <nav>
-      <a href="./" aria-label="Inicio" class="brand"><strong>[Tu Despacho]</strong></a>
+      <a href="./" aria-label="Accueil" class="brand"><strong>[Votre Cabinet]</strong></a>
       <ul>
-        <li><a href="#como-funciona">Cómo funciona</a></li>
-        <li><a href="#faq">Preguntas frecuentes</a></li>
-        <li><a class="contrast" href="tel:+34900123456">Llámanos</a></li>
+        <li><a href="#comment">Comment ça marche</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a class="contrast" href="tel:+212000000000">Appelez‑nous</a></li>
       </ul>
     </nav>
   </header>
 
-  <main id="contenido" class="container">
+  <main id="contenu" class="container">
     <section class="hero">
       <div class="hero-content">
-        <h1>¿Tienes un problema legal?<br><span class="accent">Te llamamos y te orientamos</span></h1>
-        <p class="lead">Déjanos tu teléfono, tu ciudad y un breve resumen. Un abogado te contactará para una primera evaluación sin compromiso.</p>
-        <ul class="trust" aria-label="Confianza">
-          <li>Respuesta en &lt; 24&nbsp;h</li>
-          <li>Confidencial y seguro</li>
-          <li>+1.000 casos atendidos</li>
+        <h1>Un problème juridique ?<br><span class="accent">Nous vous rappelons et vous orientons</span></h1>
+        <p class="lead">Laissez‑nous votre téléphone, votre ville et un bref résumé. Un avocat vous contactera pour une première évaluation sans engagement.</p>
+        <ul class="trust" aria-label="Éléments de confiance">
+          <li>Réponse &lt; 24&nbsp;h</li>
+          <li>Confidentiel et sécurisé</li>
+          <li>+1&nbsp;000 dossiers traités</li>
         </ul>
       </div>
 
       <div class="card form-card" aria-labelledby="form-title" aria-describedby="form-desc">
-        <h2 id="form-title" class="form-title">Reserva tu llamada</h2>
-        <p id="form-desc" class="form-desc">Solo tardarás 2&nbsp;minutos. No compartiremos tu información sin tu permiso.</p>
+        <h2 id="form-title" class="form-title">Réservez votre appel</h2>
+        <p id="form-desc" class="form-desc">Cela ne prend que 2&nbsp;minutes. Nous ne partagerons pas vos informations sans votre accord.</p>
 
-        <!-- Nota: action apunta a tu API externa para fallback sin JS -->
+        <!-- Astuce: l’attribut action sert de repli sans JS ; avec JS usamos fetch -->
         <form id="lead-form" class="lead-form" method="post" action="https://TU_API.example.com/api/leads" novalidate>
           <fieldset>
-            <label for="phone">Teléfono móvil <abbr title="requerido" aria-label="requerido">*</abbr></label>
+            <label for="phone">Téléphone mobile <abbr title="obligatoire" aria-label="obligatoire">*</abbr></label>
             <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel"
-                   required placeholder="+34 600 123 456"
+                   required placeholder="+212 6 12 34 56 78"
                    aria-describedby="phone-hint phone-error" />
-            <small id="phone-hint" class="hint">Introduce un número de contacto. Aceptamos espacios y guiones.</small>
+            <small id="phone-hint" class="hint">Indiquez un numéro de contact. Les espaces et tirets sont acceptés.</small>
             <small id="phone-error" class="error" role="alert" aria-live="polite"></small>
           </fieldset>
 
           <fieldset>
-            <label for="city">Ciudad <abbr title="requerido" aria-label="requerido">*</abbr></label>
+            <label for="city">Ville <abbr title="obligatoire" aria-label="obligatoire">*</abbr></label>
             <select id="city" name="city" required aria-describedby="city-error">
-              <option value="" selected disabled>Selecciona tu ciudad</option>
-              <option>Madrid</option><option>Barcelona</option><option>Valencia</option><option>Sevilla</option>
-              <option>Zaragoza</option><option>Málaga</option><option>Murcia</option><option>Bilbao</option>
-              <option>Alicante</option><option>Córdoba</option><option>Valladolid</option><option>Vigo</option>
-              <option>Gijón</option><option>A Coruña</option><option>Granada</option><option>Elche</option>
-              <option>Palma</option><option>Santa Cruz de Tenerife</option><option>Las Palmas</option><option>San Sebastián</option>
+              <option value="" selected disabled>Sélectionnez votre ville</option>
+              <!-- Principales villes du Maroc (noms en français) -->
+              <option>Casablanca</option>
+              <option>Rabat</option>
+              <option>Salé</option>
+              <option>Fès</option>
+              <option>Marrakech</option>
+              <option>Tanger</option>
+              <option>Agadir</option>
+              <option>Meknès</option>
+              <option>Oujda</option>
+              <option>Kénitra</option>
+              <option>Tétouan</option>
+              <option>Mohammédia</option>
+              <option>Safi</option>
+              <option>Khouribga</option>
+              <option>Béni Mellal</option>
+              <option>Nador</option>
+              <option>Témara</option>
+              <option>El Jadida</option>
+              <option>Settat</option>
+              <option>Taza</option>
+              <option>Larache</option>
+              <option>Ksar El‑Kébir</option>
+              <option>Ouarzazate</option>
+              <option>Errachidia</option>
+              <option>Essaouira</option>
+              <option>Taroudant</option>
+              <option>Al Hoceïma</option>
+              <option>Guelmim</option>
+              <option>Berkane</option>
+              <option>Laâyoune</option>
+              <option>Dakhla</option>
             </select>
             <small id="city-error" class="error" role="alert" aria-live="polite"></small>
           </fieldset>
 
           <fieldset>
-            <label for="summary">Resumen de tu caso <abbr title="requerido" aria-label="requerido">*</abbr></label>
+            <label for="summary">Résumé de votre dossier <abbr title="obligatoire" aria-label="obligatoire">*</abbr></label>
             <textarea id="summary" name="summary" rows="5" minlength="20" maxlength="1000" required
-                      placeholder="Cuéntanos en pocas líneas qué ha pasado, fechas clave y tu objetivo."></textarea>
-            <small class="hint">Evita incluir datos muy sensibles. Si es necesario, los trataremos por teléfono.</small>
+                      placeholder="Expliquez brièvement la situation, les dates clés et votre objectif."></textarea>
+            <small class="hint">Évitez d’ajouter des données très sensibles. Nous pourrons en parler au téléphone si nécessaire.</small>
             <small id="summary-error" class="error" role="alert" aria-live="polite"></small>
           </fieldset>
 
-          <!-- Honeypot (antispam) -->
-          <input type="text" id="middle-name" name="middle_name" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" placeholder="No rellenar" />
+          <!-- Champ honeypot anti‑spam -->
+          <input type="text" id="middle-name" name="middle_name" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" placeholder="Ne pas remplir" />
 
-          <!-- Campos ocultos para tracking -->
+          <!-- Tracking UTM/GCLID -->
           <input type="hidden" name="utm_source" id="utm_source" />
           <input type="hidden" name="utm_medium" id="utm_medium" />
           <input type="hidden" name="utm_campaign" id="utm_campaign" />
@@ -109,83 +136,81 @@
           <input type="hidden" name="utm_content" id="utm_content" />
           <input type="hidden" name="gclid" id="gclid" />
 
-          <!-- Turnstile: reemplaza YOUR_TURNSTILE_SITE_KEY por tu clave -->
+          <!-- Turnstile : remplacez par votre clé de site -->
           <div class="cf-turnstile" data-sitekey="0x4AAAAAABsHVC6en8g2oW31" data-theme="light"></div>
 
           <label class="checkbox">
             <input type="checkbox" id="consent" name="consent" required />
-            <span>Acepto el <a href="privacidad.html" target="_blank" rel="noopener noreferrer">aviso de privacidad</a> y el <a href="terminos.html" target="_blank" rel="noopener noreferrer">aviso legal</a>.</span>
+            <span>J’accepte la <a href="privacidad.html" target="_blank" rel="noopener noreferrer">politique de confidentialité</a> et les <a href="terminos.html" target="_blank" rel="noopener noreferrer">mentions légales</a>.</span>
           </label>
 
-          <button type="submit" id="submit-btn" class="primary">Solicitar llamada</button>
+          <button type="submit" id="submit-btn" class="primary">Demander un appel</button>
           <p id="form-status" class="status" role="status" aria-live="polite" hidden></p>
 
           <noscript>
-            <p class="noscript">Para enviar el formulario necesitas activar JavaScript.</p>
+            <p class="noscript">Activez JavaScript pour envoyer le formulaire.</p>
           </noscript>
         </form>
 
-        <p class="legal-hint">Este sitio no ofrece asesoramiento jurídico. Enviar el formulario no crea una relación abogado‑cliente.</p>
+        <p class="legal-hint">Ce site ne fournit pas de conseil juridique. L’envoi du formulaire ne crée pas de relation avocat‑client.</p>
       </div>
     </section>
 
-    <section id="como-funciona" class="steps">
-      <h2>¿Cómo funciona?</h2>
+    <section id="comment" class="steps">
+      <h2>Comment ça marche ?</h2>
       <div class="steps-grid">
         <article class="step">
-          <h3>1) Envío</h3>
-          <p>Nos dejas tu contacto y un resumen del caso.</p>
+          <h3>1) Envoi</h3>
+          <p>Vous nous laissez vos coordonnées et un résumé.</p>
         </article>
         <article class="step">
-          <h3>2) Llamada</h3>
-          <p>Te contactamos para entender tu situación y objetivos.</p>
+          <h3>2) Appel</h3>
+          <p>Nous vous contactons pour comprendre votre situation et vos objectifs.</p>
         </article>
         <article class="step">
-          <h3>3) Propuesta</h3>
-          <p>Si encaja, compartimos opciones y próximos pasos.</p>
+          <h3>3) Proposition</h3>
+          <p>Si cela convient, nous présentons les options et les prochaines étapes.</p>
         </article>
       </div>
     </section>
 
     <section id="faq" class="faq">
-      <h2>Preguntas frecuentes</h2>
+      <h2>FAQ</h2>
       <details>
-        <summary>¿Cuánto tarda alguien en llamarme?</summary>
-        <p>Normalmente en menos de 24 horas laborables.</p>
+        <summary>Quel est le délai de rappel ?</summary>
+        <p>Généralement moins de 24&nbsp;heures ouvrables.</p>
       </details>
       <details>
-        <summary>¿Qué coste tiene la primera llamada?</summary>
-        <p>La evaluación inicial es gratuita y sin compromiso.</p>
+        <summary>Le premier échange est‑il payant ?</summary>
+        <p>L’évaluation initiale est gratuite et sans engagement.</p>
       </details>
       <details>
-        <summary>¿Cómo tratáis mi información?</summary>
-        <p>Solo la usamos para valorar tu consulta y contactarte. Más detalles en el <a href="privacidad.html">aviso de privacidad</a>.</p>
+        <summary>Comment traitez‑vous mes informations ?</summary>
+        <p>Nous les utilisons uniquement pour évaluer votre demande et vous recontacter. Plus de détails dans la <a href="privacidad.html">politique de confidentialité</a>.</p>
       </details>
     </section>
   </main>
 
   <footer class="container">
-    <small>&copy; <span id="year"></span> [Tu Despacho]. Todos los derechos reservados.</small>
+    <small>&copy; <span id="year"></span> [Votre Cabinet]. Tous droits réservés.</small>
   </footer>
 
-  <!-- Datos estructurados para un servicio legal -->
+  <!-- Données structurées -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "LegalService",
-    "name": "[Tu Despacho]",
-    "url": "https://ismatpg.github.io/legal-landing/",
-    "telephone": "+34 900 123 456",
-    "areaServed": "ES",
-    "availableLanguage": "es",
+    "name": "[Votre Cabinet]",
+    "url": "https://TU_USUARIO.github.io/TU_REPO/",
+    "telephone": "+212 000 00 00 00",
+    "areaServed": "MA",
+    "availableLanguage": "fr",
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "Madrid",
-      "addressCountry": "ES"
+      "addressLocality": "Casablanca",
+      "addressCountry": "MA"
     }
   }
   </script>
 </body>
 </html>
-
-
