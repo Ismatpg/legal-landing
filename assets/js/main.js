@@ -1,13 +1,13 @@
 "use strict";
 
 /**
- * Version FR/MA con:
- * - Validación inline y resumen de errores accesible
- * - Contador de caracteres
+ * FR/MA:
+ * - Validación inline + resumen de errores accesible
+ * - Contador de caractères (Résumé)
  * - Envío a API externa (CORS)
- * - Fallback de parallax si no hay scroll‑driven CSS
+ * - Parallax fallback si no hay scroll‑driven CSS
  */
-const API_URL = "  https://lead-api.ismael-guijarro-raissouni.workers.dev"; // ← cambia por tu Worker/API
+const API_URL = "https://lead-api.ismael-guijarro-raissouni.workers.dev"; // ← cambia por tu Worker/API
 
 (function () {
   const form = document.getElementById("lead-form");
@@ -22,11 +22,11 @@ const API_URL = "  https://lead-api.ismael-guijarro-raissouni.workers.dev"; // �
   const errorSummary = document.getElementById("error-summary");
   const errorList = document.getElementById("error-list");
 
-  // Año dinámico
+  // Año
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // Captura UTM/GCLID
+  // UTM/GCLID
   const params = new URLSearchParams(location.search);
   ["utm_source","utm_medium","utm_campaign","utm_term","utm_content","gclid"].forEach(k => {
     const el = document.getElementById(k);
@@ -66,7 +66,7 @@ const API_URL = "  https://lead-api.ismael-guijarro-raissouni.workers.dev"; // �
   // Contador inicial
   if (countEl && summary) countEl.textContent = `${summary.value.length}/1000`;
 
-  // Validación inline
+  // Validación inline (tel)
   if (phone) {
     phone.addEventListener("blur", () => {
       const digits = onlyDigits(phone.value);
@@ -80,6 +80,7 @@ const API_URL = "  https://lead-api.ismael-guijarro-raissouni.workers.dev"; // �
     });
   }
 
+  // Résumé: contador + validación mínima
   if (summary) {
     const updateCount = () => { if (countEl) countEl.textContent = `${summary.value.length}/1000`; };
     summary.addEventListener("input", () => {
@@ -95,6 +96,7 @@ const API_URL = "  https://lead-api.ismael-guijarro-raissouni.workers.dev"; // �
     updateCount();
   }
 
+  // Envío
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -134,7 +136,7 @@ const API_URL = "  https://lead-api.ismael-guijarro-raissouni.workers.dev"; // �
       }
 
       if (hasError) {
-        // Lleva el foco al resumen de errores
+        // Lleva foco al resumen
         if (errorSummary) {
           errorSummary.scrollIntoView({ behavior: "smooth", block: "start" });
           errorSummary.focus?.();
@@ -142,7 +144,7 @@ const API_URL = "  https://lead-api.ismael-guijarro-raissouni.workers.dev"; // �
         return;
       }
 
-      // Token Turnstile (Cloudflare inserta input oculto)
+      // Token Turnstile
       const cfTokenInput = form.querySelector('input[name="cf-turnstile-response"]');
       const cfToken = cfTokenInput ? cfTokenInput.value : "";
 
@@ -196,7 +198,7 @@ const API_URL = "  https://lead-api.ismael-guijarro-raissouni.workers.dev"; // �
     });
   }
 
-  // === Parallax fallback ligero (si no hay scroll‑driven CSS y no se ha pedido reducir movimiento) ===
+  // Parallax fallback (si no hay scroll‑timeline y no se ha pedido reducir movimiento)
   (function(){
     const media = document.querySelector('.hero-media.parallax');
     if (!media) return;
@@ -205,7 +207,7 @@ const API_URL = "  https://lead-api.ismael-guijarro-raissouni.workers.dev"; // �
     if (supports || reduce) return;
 
     let raf, lastY = -1;
-    const speed = 0.08; // intensidad sutil
+    const speed = 0.08;
 
     const onScroll = () => {
       const rect = media.parentElement.getBoundingClientRect();
@@ -218,7 +220,7 @@ const API_URL = "  https://lead-api.ismael-guijarro-raissouni.workers.dev"; // �
       if (y === lastY) { raf = requestAnimationFrame(onScroll); return; }
       lastY = y;
       const offset = (y * speed);
-      media.style.transform = `translate3d(0, ${-4 + (offset % 8)}%, 0)`; // entre -4% y +4%
+      media.style.transform = `translate3d(0, ${-4 + (offset % 8)}%, 0)`;
       raf = requestAnimationFrame(onScroll);
     };
 
