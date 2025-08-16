@@ -1,22 +1,24 @@
-name = "legal-landing-api"
+name = "lead-api"                    # <- usa el nombre que aparece en tus logs
 main = "src/index.js"
 compatibility_date = "2024-11-20"
 workers_dev = true
-logpush = true
+
+#migrations
 migrations_dir = "migrations"
 
-# Variables no sensibles (puedes dejarlas vacías y ponerlas luego en el panel)
-[vars]
-MAIL_PROVIDER = "resend"            # o "mailchannels"
-MAIL_FROM = "no-reply@example.com"  # dominio verificado en tu proveedor
-DEFAULT_EMAIL = "leads@example.com" # fallback si no hay regla
-ALLOWED_ORIGINS = "https://ismatpg.github.io" # separa por comas si hay varias
+# ❌ Quita/Comenta esta línea si la tenías:
+# logpush = true   # <-- esto provoca el error 10023 (solo Enterprise)
 
-# Vars sensibles (defínelas como secrets con wrangler o en el dashboard)
-# JWT_SECRET, ADMIN_USER, ADMIN_PASS, TURNSTILE_SECRET, RESEND_API_KEY
+[vars]
+MAIL_PROVIDER   = "resend"                           # o "mailchannels"
+MAIL_FROM       = "no-reply@example.com"
+DEFAULT_EMAIL   = "leads@example.com"
+ALLOWED_ORIGINS = "https://ismatpg.github.io"        # añade otros orígenes separados por coma
+
+# Secrets (defínelos en el dashboard o con wrangler secret put):
+# ADMIN_USER, ADMIN_PASS, JWT_SECRET, TURNSTILE_SECRET, RESEND_API_KEY
 
 [[d1_databases]]
 binding = "DB"
 database_name = "legal_leads"
-database_id = "8879e33a-4762-489e-a61f-9506bf1d97f9"
-
+database_id = "REPLACE_WITH_YOUR_D1_ID"             # <-- tu ID real de D1
