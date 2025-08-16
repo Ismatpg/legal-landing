@@ -1,62 +1,40 @@
 /* ======================
    Layout profesional y responsivo (FR/MA)
-   Basado en: grid 8px, gutters 16/24, contenedor 1140–1320,
-   medida de lectura 50–75 CPL, targets ≥44px y safe-area iOS
    ====================== */
 
-/* Normalización esencial */
+/* Normalización y box-sizing seguro */
 *,*::before,*::after{ box-sizing:border-box; }
 html{ -webkit-text-size-adjust:100%; }
+
 :root{
-  /* Tipografías */
-  --ff-sans: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  --ff-serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --ff-sans:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  --ff-serif:"Source Serif 4",Georgia,"Times New Roman",serif;
 
-  /* Marca */
-  --brand-700:#1D4ED8;
-  --brand-600:#2563EB;
-  --brand-500:#3B82F6;
-  --brand-400:#60A5FA;
+  --brand-700:#1D4ED8; --brand-600:#2563EB; --brand-500:#3B82F6; --brand-400:#60A5FA;
 
-  /* Fondos */
-  --surface-0:#0A1020;
-  --surface-1:#0D1324;
-  --text:#E5E7EB;
-  --text-strong:#FFFFFF;
-  --muted:#A7B0C0;
+  --surface-0:#0A1020; --surface-1:#0D1324;
+  --text:#E5E7EB; --text-strong:#FFF; --muted:#A7B0C0;
 
   /* Card “blanco azulado” */
-  --field-bg:#F5F8FF;         /* superficie de campos */
-  --field-text:#0F172A;
-  --field-border:#B6C6E5;
-  --field-border-hover:#90A8D7;
-  --field-placeholder:#475569;
+  --field-bg:#F5F8FF; --field-text:#0F172A; --field-border:#B6C6E5;
+  --field-border-hover:#90A8D7; --field-placeholder:#475569;
 
-  /* Escala (8‑pt) */
-  --space-1:.5rem;  /* 8  */
-  --space-2:1rem;   /* 16 */
-  --space-3:1.5rem; /* 24 */
-  --space-4:2rem;   /* 32 */
-  --space-5:2.5rem; /* 40 */
-  --space-6:3rem;   /* 48 */
+  /* Escala 8‑pt */
+  --space-1:.5rem; --space-2:1rem; --space-3:1.5rem; --space-4:2rem; --space-5:2.5rem; --space-6:3rem;
 
-  /* Gutter system (16 en móvil → 24/32 en desktop) */
+  /* Gutters + container */
   --gutter: clamp(16px, 4vw, 32px);
   --gutter-lg: clamp(24px, 2.5vw, 40px);
+  --content-max: 1200px;
+  --measure: 65ch;
 
-  /* Contenedor y medida de lectura */
-  --content-max: 1200px;  /* similar a 1140–1320 Bootstrap */
-  --measure: 65ch;        /* ≈50–75 CPL */
-
-  --radius-2:.75rem;
-  --radius-3:1rem;
+  --radius-2:.75rem; --radius-3:1rem;
   --shadow-1:0 10px 30px rgba(0,0,0,.28);
 
-  /* CTA */
   --cta-grad: linear-gradient(135deg, var(--brand-600), var(--brand-400));
 }
 
-/* Contenedor: ancho + safe‑area iOS */
+/* Contenedor consistente + safe‑area */
 .container{
   width: min(100% - calc(2 * var(--gutter)), var(--content-max));
   margin-inline:auto;
@@ -65,15 +43,14 @@ html{ -webkit-text-size-adjust:100%; }
     max(var(--gutter), env(safe-area-inset-right));
 }
 
-/* Fondo general (degradado + grano sutil) */
+/* Fondo general */
 body{
   font-family:var(--ff-sans);
   background:
     radial-gradient(1200px 600px at 10% -10%, #0C1630 0%, transparent 60%),
     radial-gradient(1200px 600px at 110% 20%, #0A1B40 0%, transparent 60%),
     linear-gradient(180deg, var(--surface-0), var(--surface-1));
-  color:var(--text);
-  position:relative; min-height:100dvh;
+  color:var(--text); min-height:100dvh; position:relative;
 }
 body::before{
   content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
@@ -81,13 +58,11 @@ body::before{
   background-size:300px 300px; mix-blend-mode:soft-light; opacity:.05;
 }
 
-/* Tipografía con clamp() (más comedida en móvil) */
-h1{ font-family:var(--ff-serif); font-weight:700; line-height:1.12;
-     font-size:clamp(1.75rem, 4.2vw + .4rem, 2.8rem); color:var(--text-strong); }
-h2{ font-family:var(--ff-serif); font-weight:700; line-height:1.2;
-     font-size:clamp(1.3rem, 1.1vw + 1rem, 2rem); color:var(--text-strong); }
+/* Tipografía fluida contenida */
+h1{ font-family:var(--ff-serif); font-weight:700; line-height:1.12; font-size:clamp(1.75rem, 4.2vw + .4rem, 2.8rem); color:var(--text-strong); }
+h2{ font-family:var(--ff-serif); font-weight:700; line-height:1.2;  font-size:clamp(1.3rem, 1.1vw + 1rem, 2rem); color:var(--text-strong); }
 h3{ font-family:var(--ff-serif); font-weight:700; color:var(--text-strong); }
-.lead{ color:var(--text); font-size:clamp(1rem, .5vw + .9rem, 1.125rem); }
+.lead{ color:var(--text); font-size:clamp(1rem,.5vw + .9rem,1.125rem); }
 
 /* Header */
 .site-header nav a.brand{ text-decoration:none; color:var(--brand-400); }
@@ -105,17 +80,13 @@ h3{ font-family:var(--ff-serif); font-weight:700; color:var(--text-strong); }
 }
 .hero-inner{
   position:relative; z-index:1;
-  display:grid; gap:clamp(20px, 3vw, 40px);
-  /* Texto 1fr + Form auto con límite */
-  grid-template-columns: minmax(0,1fr) minmax(320px, 420px);
+  display:grid; gap:clamp(20px,3vw,40px);
+  grid-template-columns: minmax(0,1fr) minmax(320px,420px);
   align-items:start;
 }
-.hero-content{ max-width:min(var(--measure), 64ch); }
+.hero-content{ max-width:min(var(--measure),64ch); }
 .form-card{ width:100%; max-width:420px; }
-@media (max-width:980px){
-  .hero-inner{ grid-template-columns:1fr; }
-  .form-card{ max-width:none; }
-}
+@media (max-width:980px){ .hero-inner{ grid-template-columns:1fr; } .form-card{ max-width:none; } }
 
 .hero-media{ position:absolute; inset:0; z-index:0; overflow:hidden; transform:translateZ(0); }
 .hero-media picture,.hero-media img{ width:100%; height:100%; object-fit:cover; display:block; filter:saturate(105%); }
@@ -126,13 +97,10 @@ h3{ font-family:var(--ff-serif); font-weight:700; color:var(--text-strong); }
     linear-gradient(90deg, rgba(10,15,25,.72) 0%, rgba(10,15,25,.46) 40%, rgba(10,15,25,.20) 70%, rgba(10,15,25,.0) 100%);
 }
 
-/* Parallax CSS si hay soporte */
+/* Parallax si hay soporte */
 @keyframes heroParallax{ from{transform:translateY(-4%);} to{transform:translateY(4%);} }
 @supports (animation-timeline:view()){
-  .hero-media.parallax{
-    animation-name:heroParallax; animation-duration:1ms; animation-timing-function:linear;
-    animation-fill-mode:both; animation-timeline:view(); animation-range:cover 0% cover 100%;
-  }
+  .hero-media.parallax{ animation-name:heroParallax; animation-duration:1ms; animation-timing-function:linear; animation-fill-mode:both; animation-timeline:view(); animation-range:cover 0% cover 100%; }
 }
 @media (prefers-reduced-motion:reduce){ .hero-media.parallax{ animation:none !important; } }
 
@@ -140,7 +108,7 @@ h3{ font-family:var(--ff-serif); font-weight:700; color:var(--text-strong); }
 .badges{ display:flex; flex-wrap:wrap; gap:.6rem; padding:0; list-style:none; margin-top:var(--space-2); }
 .badge{ display:inline-flex; align-items:center; gap:.45rem; color:var(--text); background:rgba(255,255,255,.06); padding:.35rem .6rem; border-radius:999px; }
 
-/* ===== FORM CARD (blanco azulado con degradado) */
+/* ===== FORM CARD (blanco azulado) */
 .form-card{
   color:#0f172a; border-radius:var(--radius-3);
   padding:clamp(18px, 2.2vw, 24px);
@@ -148,6 +116,12 @@ h3{ font-family:var(--ff-serif); font-weight:700; color:var(--text-strong); }
   background:linear-gradient(180deg,#F3F8FF 0%, #E6F0FF 100%);
   border:1px solid rgba(30,58,138,.08);
   backdrop-filter:saturate(120%) blur(6px);
+
+  /* CLIP SEGURO → NADA PUEDE SALIR DEL CARD */
+  overflow:hidden;
+  /* Fallback adicional en navegadores raros */
+  clip-path: inset(0 round var(--radius-3));
+
   /* Overrides Pico dentro del card */
   --pico-form-element-background-color:var(--field-bg);
   --pico-form-element-color:var(--field-text);
@@ -161,43 +135,49 @@ h3{ font-family:var(--ff-serif); font-weight:700; color:var(--text-strong); }
 .form-title{ margin-bottom:.2rem; font-family:var(--ff-serif); }
 .form-desc{ margin-top:0; color:#334155; }
 
-/* ===== STEPPER (pasos compactos y sin overflow) */
-.stepper{ display:grid; gap:var(--space-2); }
+/* ===== STEPPER (nada excede el card) */
+.stepper{ display:grid; gap:var(--space-2); max-width:100%; }
 .step{
   border:1px solid rgba(30,58,138,.10); border-radius:.75rem;
   background:linear-gradient(180deg, rgba(255,255,255,.88), rgba(246,250,255,.88));
   backdrop-filter:saturate(120%) blur(2px);
+  max-width:100%;
 }
-.step-header{ display:flex; align-items:center; gap:.6rem; padding:.65rem var(--space-2); }
+.step-header{ display:flex; align-items:center; gap:.6rem; padding:.65rem var(--space-2); max-width:100%; }
 .step-index{
   width:24px; height:24px; border-radius:50%; background:var(--brand-600); color:#fff;
-  font-weight:700; display:grid; place-items:center; font-size:.85rem;
+  font-weight:700; display:grid; place-items:center; font-size:.85rem; flex:0 0 auto;
 }
 .step.is-complete .step-index{ background:#22C55E; }
 .step-title{ margin:0; color:#0f172a; font-size:clamp(1rem,.6vw + .9rem,1.125rem); }
 .step-body{
-  overflow:hidden; max-height:0;
+  overflow:hidden; max-height:0; max-width:100%;
   padding:0 var(--space-2);
   transition:max-height .35s ease, padding-top .35s ease, padding-bottom .35s ease;
 }
 .step.is-active .step-body{ max-height:1000px; padding:var(--space-2); }
-.step-actions{ display:flex; gap:.5rem; justify-content:flex-end; padding:0 var(--space-2) var(--space-2); }
-.btn-secondary{ background:#e2e8f0; border:1px solid #cbd5e1; color:#0f172a; }
+.step-actions{
+  display:flex; gap:.5rem; justify-content:flex-end; padding:0 var(--space-2) var(--space-2);
+  max-width:100%;
+}
+.step-actions > *{ max-width:100%; }
 
 /* Sin JS: todos los pasos abiertos */
 .no-js .step .step-body{ max-height:none !important; padding:var(--space-2) !important; }
 
-/* ===== Inputs compactos y accesibles */
-.field{ position:relative; }
-.form-card input[type="text"], .form-card input[type="tel"], .form-card select, .form-card textarea{
+/* ===== Inputs compactos y al 100% */
+.field{ position:relative; max-width:100%; }
+.form-card input[type="text"],
+.form-card input[type="tel"],
+.form-card select,
+.form-card textarea{
   background-color:var(--field-bg); color:var(--field-text);
   border:1px solid var(--field-border); min-height:44px;
   transition:box-shadow .15s ease, border-color .15s ease, background-color .15s ease;
-  width:100%;
+  width:100%; max-width:100%;
 }
 .form-card :is(input,select,textarea):focus{
-  border-color:var(--brand-600);
-  box-shadow:0 0 0 6px rgba(37,99,235,.12);
+  border-color:var(--brand-600); box-shadow:0 0 0 6px rgba(37,99,235,.12);
 }
 .form-card input::placeholder, .form-card textarea::placeholder{ color:var(--field-placeholder); }
 
@@ -215,15 +195,17 @@ h3{ font-family:var(--ff-serif); font-weight:700; color:var(--text-strong); }
   top:.28rem; transform:translateY(-.28rem) scale(.88); color:var(--brand-700); background:#F3F8FF;
 }
 
-/* Hints solo al foco */
+/* Hints, errores y contador */
 .field .hint{ display:none; }
 .field:focus-within .hint{ display:inline-block; color:#475569; margin-top:.25rem; }
-
-/* Errores / count */
 :focus-visible{ outline:2px solid var(--brand-500); outline-offset:2px; border-radius:.25rem; }
 .form-card :is(input,select,textarea)[aria-invalid="true"]{ border-color:#b00020 !important; outline-color:#b00020 !important; box-shadow:none; }
 .error{ color:#b00020; min-height:1.05rem; display:inline-block; }
 .count{ color:#475569; }
+
+/* Turnstile responsivo — nunca excede el ancho */
+.cf-turnstile{ width:100%; max-width:100%; overflow:hidden; }
+.cf-turnstile iframe{ max-width:100% !important; }
 
 /* Honeypot oculto */
 .hp{ position:absolute; left:-9999px; width:1px; height:1px; opacity:0; pointer-events:none; }
