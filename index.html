@@ -7,7 +7,7 @@
   <title>[Votre Cabinet] — Appel gratuit pour évaluer votre dossier</title>
   <meta name="description" content="Décrivez votre situation en 2 minutes. Un avocat vous contactera pour une première évaluation sans engagement." />
   <meta name="robots" content="index,follow" />
-  <link rel="canonical" href="https://ismatpg.github.io/legal-landing/" />
+  <link rel="canonical" href="https://ismatpg.github.io/legal-landing//" />
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
   <meta name="theme-color" content="#0d6efd" />
 
@@ -84,23 +84,25 @@
         <h2 id="form-title" class="form-title">Réservez votre appel</h2>
         <p id="form-desc" class="form-desc">Cela ne prend que 2&nbsp;minutes. Nous ne partagerons pas vos informations sans votre accord.</p>
 
-        <!-- Resumen de errores accesible -->
+        <!-- Resumen de errores accesible (se muestra solo si hay errores) -->
         <div id="error-summary" class="error-summary" role="alert" aria-live="polite" hidden>
           <h3>Veuillez corriger les erreurs suivantes :</h3>
           <ul id="error-list"></ul>
         </div>
 
-        <form id="lead-form" class="lead-form" method="post" action="https://TU_API.example.com/api/leads" novalidate>
-          <fieldset>
-            <label for="phone">Téléphone mobile <abbr title="obligatoire" aria-label="obligatoire">*</abbr></label>
-            <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel"
-                   required placeholder="+212 6 12 34 56 78"
+        <form id="lead-form" class="lead-form" method="post" action="0x4AAAAAABsHVC6en8g2oW31" novalidate>
+          <!-- Téléphone (floating label + ejemplo en placeholder) -->
+          <div class="field floating">
+            <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required
+                   placeholder="+212 6 12 34 56 78"
                    aria-describedby="phone-hint phone-error" />
-            <small id="phone-hint" class="hint">Indiquez un numéro de contact. Les espaces et tirets sont acceptés.</small>
+            <label for="phone">Téléphone</label>
+            <small id="phone-hint" class="hint">Espaces et tirets acceptés.</small>
             <small id="phone-error" class="error" role="alert" aria-live="polite"></small>
-          </fieldset>
+          </div>
 
-          <fieldset>
+          <!-- Ville (etiqueta normal; select no usa floating para evitar duplicación visual) -->
+          <div class="field">
             <label for="city">Ville <abbr title="obligatoire" aria-label="obligatoire">*</abbr></label>
             <select id="city" name="city" required aria-describedby="city-error" autocomplete="address-level2">
               <option value="" selected disabled>Sélectionnez votre ville</option>
@@ -115,17 +117,18 @@
               <option>Berkane</option><option>Laâyoune</option><option>Dakhla</option>
             </select>
             <small id="city-error" class="error" role="alert" aria-live="polite"></small>
-          </fieldset>
+          </div>
 
-          <fieldset>
-            <label for="summary">Résumé de votre dossier <abbr title="obligatoire" aria-label="obligatoire">*</abbr></label>
+          <!-- Résumé (floating label + ejemplo + contador; hint solo al foco) -->
+          <div class="field floating">
             <textarea id="summary" name="summary" rows="5" minlength="20" maxlength="1000" required
-                      placeholder="Expliquez brièvement la situation, les dates clés et votre objectif."
+                      placeholder="Ex.: litige emploi — licenciement le 10/03; objectif: indemnité"
                       aria-describedby="summary-hint summary-error summary-count"></textarea>
-            <small id="summary-hint" class="hint">Évitez d’ajouter des données très sensibles. Nous pourrons en parler au téléphone si nécessaire.</small>
+            <label for="summary">Résumé</label>
+            <small id="summary-hint" class="hint">Min. 20 caractères.</small>
             <small id="summary-error" class="error" role="alert" aria-live="polite"></small>
             <small id="summary-count" class="count" aria-live="polite">0/1000</small>
-          </fieldset>
+          </div>
 
           <!-- Anti‑spam -->
           <input type="text" id="middle-name" name="middle_name" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" placeholder="Ne pas remplir" />
@@ -139,7 +142,7 @@
           <input type="hidden" name="gclid" id="gclid" />
 
           <!-- Turnstile -->
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAABsHVC6en8g2oW31" data-theme="light"></div>
+          <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY" data-theme="light"></div>
 
           <label class="checkbox">
             <input type="checkbox" id="consent" name="consent" required />
