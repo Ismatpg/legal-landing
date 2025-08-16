@@ -24,11 +24,17 @@
   <meta name="twitter:description" content="Laissez-nous votre téléphone, votre ville et un bref résumé. Nous vous rappelons pour évaluer votre dossier." />
   <meta name="twitter:image" content="https://TU_USUARIO.github.io/TU_REPO/assets/img/og-image.svg" />
 
+  <!-- Performance -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+  <!-- Pico.css + estilos del sitio -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
   <link rel="stylesheet" href="assets/css/styles.css" />
 
+  <!-- Cloudflare Turnstile -->
   <script defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
+
+  <!-- JS del sitio -->
   <script defer src="assets/js/main.js"></script>
 </head>
 <body>
@@ -47,6 +53,23 @@
 
   <main id="contenu" class="container">
     <section class="hero">
+      <!-- Capa visual de fondo con scrim y (opcional) parallax -->
+      <div class="hero-media parallax" aria-hidden="true">
+        <picture>
+          <!-- AVIF (recomendado) -->
+          <source type="image/avif"
+                  srcset="assets/img/hero-1280.avif 1280w, assets/img/hero-1920.avif 1920w"
+                  sizes="(max-width: 980px) 100vw, 50vw">
+          <!-- WEBP fallback -->
+          <source type="image/webp"
+                  srcset="assets/img/hero-1280.webp 1280w, assets/img/hero-1920.webp 1920w"
+                  sizes="(max-width: 980px) 100vw, 50vw">
+          <!-- JPEG fallback -->
+          <img src="assets/img/hero-1280.jpg" width="1280" height="800" alt=""
+               decoding="async" loading="eager" fetchpriority="high">
+        </picture>
+      </div>
+
       <div class="hero-content">
         <h1>Un problème juridique ?<br><span class="accent">Nous vous rappelons et vous orientons</span></h1>
         <p class="lead">Laissez‑nous votre téléphone, votre ville et un bref résumé. Un avocat vous contactera pour une première évaluation sans engagement.</p>
@@ -60,6 +83,12 @@
       <div class="card form-card" aria-labelledby="form-title" aria-describedby="form-desc">
         <h2 id="form-title" class="form-title">Réservez votre appel</h2>
         <p id="form-desc" class="form-desc">Cela ne prend que 2&nbsp;minutes. Nous ne partagerons pas vos informations sans votre accord.</p>
+
+        <!-- Resumen de errores accesible -->
+        <div id="error-summary" class="error-summary" role="alert" aria-live="polite" hidden>
+          <h3>Veuillez corriger les erreurs suivantes :</h3>
+          <ul id="error-list"></ul>
+        </div>
 
         <form id="lead-form" class="lead-form" method="post" action="https://TU_API.example.com/api/leads" novalidate>
           <fieldset>
@@ -75,6 +104,7 @@
             <label for="city">Ville <abbr title="obligatoire" aria-label="obligatoire">*</abbr></label>
             <select id="city" name="city" required aria-describedby="city-error" autocomplete="address-level2">
               <option value="" selected disabled>Sélectionnez votre ville</option>
+              <!-- Principales villes du Maroc -->
               <option>Casablanca</option><option>Rabat</option><option>Salé</option><option>Fès</option>
               <option>Marrakech</option><option>Tanger</option><option>Agadir</option><option>Meknès</option>
               <option>Oujda</option><option>Kénitra</option><option>Tétouan</option><option>Mohammédia</option>
@@ -147,6 +177,7 @@
     <small>&copy; <span id="year"></span> [Votre Cabinet]. Tous droits réservés.</small>
   </footer>
 
+  <!-- Données structurées -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
