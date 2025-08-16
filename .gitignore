@@ -1,0 +1,42 @@
+# Dependencias / builds
+node_modules/
+dist/
+build/
+.cache/
+.tmp/
+
+# Entornos y secretos
+.env
+.env.*
+!.env.example
+
+# Datos de usuarios (leads/PII)
+data/
+*.csv
+
+# Registros
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Clientes/servicios Cloudflare (local)
+.cloudflared/
+.wrangler/
+wrangler.toml.local
+
+# Plataformas de despliegue (si las usas)
+.vercel/
+.netlify/
+.render/
+.fly/
+
+# SO / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Tests / cobertura (si agregas tests)
+coverage/
