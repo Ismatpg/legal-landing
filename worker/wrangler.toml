@@ -1,4 +1,21 @@
-name = "legal-landing-api"                  # nombre del Worker (dominio: lead-api.<tu-subdominio>.workers.dev)
-main = "src/index.js"              # punto de entrada
-compatibility_date = "2024-10-01"  # fecha de compatibilidad del runtime
+name = "legal-landing-api"
+main = "src/index.js"
+compatibility_date = "2024-11-20"
+workers_dev = true
+logpush = true
+migrations_dir = "migrations"
 
+# Variables no sensibles (puedes dejarlas vacías y ponerlas luego en el panel)
+[vars]
+MAIL_PROVIDER = "resend"            # o "mailchannels"
+MAIL_FROM = "no-reply@example.com"  # dominio verificado en tu proveedor
+DEFAULT_EMAIL = "leads@example.com" # fallback si no hay regla
+ALLOWED_ORIGINS = "https://ismatpg.github.io" # separa por comas si hay varias
+
+# Vars sensibles (defínelas como secrets con wrangler o en el dashboard)
+# JWT_SECRET, ADMIN_USER, ADMIN_PASS, TURNSTILE_SECRET, RESEND_API_KEY
+
+[[d1_databases]]
+binding = "DB"
+database_name = "legal_leads"
+database_id = "REPLACE_WITH_YOUR_D1_ID"
