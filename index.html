@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
   <title>[Votre Cabinet] — Appel gratuit pour évaluer votre dossier</title>
   <meta name="description" content="Décrivez votre situation en 2 minutes. Un avocat vous contactera pour une première évaluation sans engagement." />
   <meta name="robots" content="index,follow" />
@@ -23,17 +24,11 @@
   <meta name="twitter:description" content="Laissez-nous votre téléphone, votre ville et un bref résumé. Nous vous rappelons pour évaluer votre dossier." />
   <meta name="twitter:image" content="https://TU_USUARIO.github.io/TU_REPO/assets/img/og-image.svg" />
 
-  <!-- Performance -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-
-  <!-- Pico.css -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
   <link rel="stylesheet" href="assets/css/styles.css" />
 
-  <!-- Cloudflare Turnstile -->
   <script defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
-
-  <!-- JS -->
   <script defer src="assets/js/main.js"></script>
 </head>
 <body>
@@ -66,7 +61,6 @@
         <h2 id="form-title" class="form-title">Réservez votre appel</h2>
         <p id="form-desc" class="form-desc">Cela ne prend que 2&nbsp;minutes. Nous ne partagerons pas vos informations sans votre accord.</p>
 
-        <!-- Astuce: l’attribut action sert de repli sans JS ; avec JS usamos fetch -->
         <form id="lead-form" class="lead-form" method="post" action="https://TU_API.example.com/api/leads" novalidate>
           <fieldset>
             <label for="phone">Téléphone mobile <abbr title="obligatoire" aria-label="obligatoire">*</abbr></label>
@@ -79,40 +73,16 @@
 
           <fieldset>
             <label for="city">Ville <abbr title="obligatoire" aria-label="obligatoire">*</abbr></label>
-            <select id="city" name="city" required aria-describedby="city-error">
+            <select id="city" name="city" required aria-describedby="city-error" autocomplete="address-level2">
               <option value="" selected disabled>Sélectionnez votre ville</option>
-              <!-- Principales villes du Maroc (noms en français) -->
-              <option>Casablanca</option>
-              <option>Rabat</option>
-              <option>Salé</option>
-              <option>Fès</option>
-              <option>Marrakech</option>
-              <option>Tanger</option>
-              <option>Agadir</option>
-              <option>Meknès</option>
-              <option>Oujda</option>
-              <option>Kénitra</option>
-              <option>Tétouan</option>
-              <option>Mohammédia</option>
-              <option>Safi</option>
-              <option>Khouribga</option>
-              <option>Béni Mellal</option>
-              <option>Nador</option>
-              <option>Témara</option>
-              <option>El Jadida</option>
-              <option>Settat</option>
-              <option>Taza</option>
-              <option>Larache</option>
-              <option>Ksar El‑Kébir</option>
-              <option>Ouarzazate</option>
-              <option>Errachidia</option>
-              <option>Essaouira</option>
-              <option>Taroudant</option>
-              <option>Al Hoceïma</option>
-              <option>Guelmim</option>
-              <option>Berkane</option>
-              <option>Laâyoune</option>
-              <option>Dakhla</option>
+              <option>Casablanca</option><option>Rabat</option><option>Salé</option><option>Fès</option>
+              <option>Marrakech</option><option>Tanger</option><option>Agadir</option><option>Meknès</option>
+              <option>Oujda</option><option>Kénitra</option><option>Tétouan</option><option>Mohammédia</option>
+              <option>Safi</option><option>Khouribga</option><option>Béni Mellal</option><option>Nador</option>
+              <option>Témara</option><option>El Jadida</option><option>Settat</option><option>Taza</option>
+              <option>Larache</option><option>Ksar El‑Kébir</option><option>Ouarzazate</option><option>Errachidia</option>
+              <option>Essaouira</option><option>Taroudant</option><option>Al Hoceïma</option><option>Guelmim</option>
+              <option>Berkane</option><option>Laâyoune</option><option>Dakhla</option>
             </select>
             <small id="city-error" class="error" role="alert" aria-live="polite"></small>
           </fieldset>
@@ -120,15 +90,17 @@
           <fieldset>
             <label for="summary">Résumé de votre dossier <abbr title="obligatoire" aria-label="obligatoire">*</abbr></label>
             <textarea id="summary" name="summary" rows="5" minlength="20" maxlength="1000" required
-                      placeholder="Expliquez brièvement la situation, les dates clés et votre objectif."></textarea>
-            <small class="hint">Évitez d’ajouter des données très sensibles. Nous pourrons en parler au téléphone si nécessaire.</small>
+                      placeholder="Expliquez brièvement la situation, les dates clés et votre objectif."
+                      aria-describedby="summary-hint summary-error summary-count"></textarea>
+            <small id="summary-hint" class="hint">Évitez d’ajouter des données très sensibles. Nous pourrons en parler au téléphone si nécessaire.</small>
             <small id="summary-error" class="error" role="alert" aria-live="polite"></small>
+            <small id="summary-count" class="count" aria-live="polite">0/1000</small>
           </fieldset>
 
-          <!-- Champ honeypot anti‑spam -->
+          <!-- Anti‑spam -->
           <input type="text" id="middle-name" name="middle_name" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" placeholder="Ne pas remplir" />
 
-          <!-- Tracking UTM/GCLID -->
+          <!-- Tracking -->
           <input type="hidden" name="utm_source" id="utm_source" />
           <input type="hidden" name="utm_medium" id="utm_medium" />
           <input type="hidden" name="utm_campaign" id="utm_campaign" />
@@ -136,7 +108,7 @@
           <input type="hidden" name="utm_content" id="utm_content" />
           <input type="hidden" name="gclid" id="gclid" />
 
-          <!-- Turnstile : remplacez par votre clé de site -->
+          <!-- Turnstile -->
           <div class="cf-turnstile" data-sitekey="0x4AAAAAABsHVC6en8g2oW31" data-theme="light"></div>
 
           <label class="checkbox">
@@ -147,9 +119,7 @@
           <button type="submit" id="submit-btn" class="primary">Demander un appel</button>
           <p id="form-status" class="status" role="status" aria-live="polite" hidden></p>
 
-          <noscript>
-            <p class="noscript">Activez JavaScript pour envoyer le formulaire.</p>
-          </noscript>
+          <noscript><p class="noscript">Activez JavaScript pour envoyer le formulaire.</p></noscript>
         </form>
 
         <p class="legal-hint">Ce site ne fournit pas de conseil juridique. L’envoi du formulaire ne crée pas de relation avocat‑client.</p>
@@ -159,35 +129,17 @@
     <section id="comment" class="steps">
       <h2>Comment ça marche ?</h2>
       <div class="steps-grid">
-        <article class="step">
-          <h3>1) Envoi</h3>
-          <p>Vous nous laissez vos coordonnées et un résumé.</p>
-        </article>
-        <article class="step">
-          <h3>2) Appel</h3>
-          <p>Nous vous contactons pour comprendre votre situation et vos objectifs.</p>
-        </article>
-        <article class="step">
-          <h3>3) Proposition</h3>
-          <p>Si cela convient, nous présentons les options et les prochaines étapes.</p>
-        </article>
+        <article class="step"><h3>1) Envoi</h3><p>Vous nous laissez vos coordonnées et un résumé.</p></article>
+        <article class="step"><h3>2) Appel</h3><p>Nous vous contactons pour comprendre votre situation et vos objectifs.</p></article>
+        <article class="step"><h3>3) Proposition</h3><p>Si cela convient, nous présentons les options et les prochaines étapes.</p></article>
       </div>
     </section>
 
     <section id="faq" class="faq">
       <h2>FAQ</h2>
-      <details>
-        <summary>Quel est le délai de rappel ?</summary>
-        <p>Généralement moins de 24&nbsp;heures ouvrables.</p>
-      </details>
-      <details>
-        <summary>Le premier échange est‑il payant ?</summary>
-        <p>L’évaluation initiale est gratuite et sans engagement.</p>
-      </details>
-      <details>
-        <summary>Comment traitez‑vous mes informations ?</summary>
-        <p>Nous les utilisons uniquement pour évaluer votre demande et vous recontacter. Plus de détails dans la <a href="privacidad.html">politique de confidentialité</a>.</p>
-      </details>
+      <details><summary>Quel est le délai de rappel ?</summary><p>Généralement moins de 24&nbsp;heures ouvrables.</p></details>
+      <details><summary>Le premier échange est‑il payant ?</summary><p>L’évaluation initiale est gratuite et sans engagement.</p></details>
+      <details><summary>Comment traitez‑vous mes informations ?</summary><p>Nous les utilisons uniquement pour évaluer votre demande et vous recontacter. Plus de détails dans la <a href="privacidad.html">politique de confidentialité</a>.</p></details>
     </section>
   </main>
 
@@ -195,7 +147,6 @@
     <small>&copy; <span id="year"></span> [Votre Cabinet]. Tous droits réservés.</small>
   </footer>
 
-  <!-- Données structurées -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -205,11 +156,7 @@
     "telephone": "+212 000 00 00 00",
     "areaServed": "MA",
     "availableLanguage": "fr",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Casablanca",
-      "addressCountry": "MA"
-    }
+    "address": { "@type": "PostalAddress", "addressLocality": "Casablanca", "addressCountry": "MA" }
   }
   </script>
 </body>
