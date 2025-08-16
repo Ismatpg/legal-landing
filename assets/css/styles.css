@@ -1,5 +1,5 @@
 /* ======================
-   Design System (FR/MA)
+   Design System (FR/MA) — look moderno + accesible
    ====================== */
 
 /* Paleta, fuentes y escala */
@@ -8,27 +8,25 @@
   --ff-sans: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --ff-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
 
-  /* Colores de marca (azules sobrios) */
-  --brand-900:#1E3A8A; /* indigo oscuro */
+  /* Marca (azules sobrios) */
   --brand-700:#1D4ED8;
   --brand-600:#2563EB;
   --brand-500:#3B82F6;
   --brand-400:#60A5FA;
 
-  /* Superficies y texto */
-  --surface-0:#0B0F1A;     /* fondo base (oscuro profesional) */
-  --surface-100:#121826;   /* variante */
-  --card:#121826;          /* tarjetas */
-  --text-strong:#FFFFFF;   /* texto fuerte sobre oscuro */
-  --text:#E5E7EB;          /* texto base */
-  --muted:#A7B0C0;         /* texto secundario */
+  /* Fondo y texto global (oscuro elegante) */
+  --surface-0:#0A1020;
+  --surface-1:#0D1324;
+  --text:#E5E7EB;
+  --text-strong:#FFFFFF;
+  --muted:#A7B0C0;
 
-  /* Campos del formulario (sobre tarjeta clara) */
-  --field-bg:#FFFFFF;
+  /* Campos (card claro) */
+  --field-bg:#F8FAFC;         /* NO blanco plano */
   --field-text:#0F172A;
-  --field-border:#64748B;
-  --field-border-hover:#475569;
-  --field-placeholder:#334155;
+  --field-border:#CBD5E1;
+  --field-border-hover:#94A3B8;
+  --field-placeholder:#475569; /* legible */
 
   /* Espaciado 8‑pt */
   --space-1:.5rem;  /* 8px  */
@@ -38,28 +36,27 @@
   --space-5:2.5rem; /* 40px */
   --space-6:3rem;   /* 48px */
 
-  /* Radios y sombras */
   --radius-2:.75rem;
   --radius-3:1rem;
-  --shadow-1:0 10px 30px rgba(0,0,0,.25);
+  --shadow-1:0 10px 30px rgba(0,0,0,.28);
 
   /* CTA */
   --cta-grad: linear-gradient(135deg, var(--brand-600), var(--brand-400));
 }
 
-/* Tema oscuro/ligero del documento (el formulario es claro, override más abajo) */
+/* ===== Fondo de la página: degradado + grain sutil */
 body {
   font-family: var(--ff-sans);
   background:
     radial-gradient(1200px 600px at 10% -10%, #0C1630 0%, transparent 60%),
     radial-gradient(1200px 600px at 110% 20%, #0A1B40 0%, transparent 60%),
-    linear-gradient(180deg, #0A1020, #0D1324);
+    linear-gradient(180deg, var(--surface-0), var(--surface-1));
   color: var(--text);
   position: relative;
   min-height: 100dvh;
 }
 
-/* Textura grain (sin archivo) */
+/* Textura grain (sin archivos externos) */
 body::before{
   content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/></filter><rect width='300' height='300' filter='url(%23n)' opacity='0.15'/></svg>");
@@ -68,25 +65,21 @@ body::before{
 }
 
 /* Tipografía fluida */
-h1{ font-family: var(--ff-serif); font-weight: 700; line-height: 1.15; font-size: clamp(2rem, 2.8vw + 1rem, 3.3rem); color: var(--text-strong); }
+h1{ font-family: var(--ff-serif); font-weight: 700; line-height: 1.15; font-size: clamp(2rem, 2.8vw + 1rem, 3.2rem); color: var(--text-strong); }
 h2{ font-family: var(--ff-serif); font-weight: 700; line-height: 1.2; font-size: clamp(1.5rem, 1.6vw + 1rem, 2.2rem); color: var(--text-strong); }
 h3{ font-family: var(--ff-serif); font-weight: 700; color: var(--text-strong); }
 .lead{ color: var(--text); font-size: clamp(1rem, .5vw + .9rem, 1.125rem); }
 
 .container { max-width: 1100px; }
-
-/* Header */
 .site-header nav a.brand{ text-decoration:none; color: var(--brand-400); }
 
-/* Link de salto accesible */
+/* Skip link */
 .skip-link{
   position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
 }
 .skip-link:focus{ position:static; width:auto; height:auto; padding:.5rem; background:#fff; color:#000; border-radius:.25rem; }
 
-/* ======================
-   HERO
-   ====================== */
+/* ===== HERO (foto + scrim + parallax) */
 .hero{
   position: relative; isolation: isolate; overflow: clip;
   border-radius: var(--radius-3);
@@ -112,7 +105,7 @@ h3{ font-family: var(--ff-serif); font-weight: 700; color: var(--text-strong); }
     linear-gradient(90deg, rgba(10,15,25,.72) 0%, rgba(10,15,25,.46) 40%, rgba(10,15,25,.20) 70%, rgba(10,15,25,.0) 100%);
 }
 
-/* Parallax por CSS scroll‑driven (si hay soporte) */
+/* Parallax con scroll‑timeline (si hay soporte) */
 @keyframes heroParallax { from{ transform: translateY(-4%);} to{ transform: translateY(4%);} }
 @supports (animation-timeline: view()){
   .hero-media.parallax{
@@ -121,7 +114,6 @@ h3{ font-family: var(--ff-serif); font-weight: 700; color: var(--text-strong); }
     animation-timeline: view(); animation-range: cover 0% cover 100%;
   }
 }
-/* Respeta reduced motion */
 @media (prefers-reduced-motion: reduce){
   .hero-media.parallax{ animation:none !important; transform:none !important; }
 }
@@ -130,15 +122,18 @@ h3{ font-family: var(--ff-serif); font-weight: 700; color: var(--text-strong); }
 .badges{ display:flex; flex-wrap:wrap; gap: var(--space-2); padding:0; list-style:none; margin-top: var(--space-2); }
 .badge{ display:inline-flex; align-items:center; gap:.5rem; color:var(--text); background: rgba(255,255,255,.06); padding:.35rem .6rem; border-radius: 999px; }
 
-/* ======================
-   FORMULARIO
-   ====================== */
+/* ===== FORM CARD (no blanco plano) */
 .form-card{
-  background:#fff; color:#0f172a;
+  position: relative;
+  color:#0f172a;
   border-radius: var(--radius-3);
-  box-shadow: var(--shadow-1);
   padding: var(--space-4);
-  /* Override tokens Pico solo dentro del card */
+  box-shadow: var(--shadow-1);
+  /* Superficie: degradado suave + glass (blur/borde) */
+  background: linear-gradient(180deg,#ffffff 0%, #F6FAFF 100%);
+  border: 1px solid rgba(15,23,42,.06);
+  backdrop-filter: saturate(120%) blur(6px);
+  /* Overrides Pico solo dentro del card */
   --pico-form-element-background-color: var(--field-bg);
   --pico-form-element-color: var(--field-text);
   --pico-form-element-border-color: var(--field-border);
@@ -150,56 +145,68 @@ h3{ font-family: var(--ff-serif); font-weight: 700; color: var(--text-strong); }
 
 /* Evita grises pálidos dentro del card */
 .form-card :is(h1,h2,h3,h4,h5,h6,p,small:not(.error),label,legend){ color:#0f172a !important; opacity:1 !important; }
-.form-title{ margin-bottom:.25rem; }
+.form-title{ margin-bottom:.25rem; font-family: var(--ff-serif); }
 .form-desc{ margin-top:0; color:#334155; }
 
-/* Grid y espaciado 8‑pt */
+/* Grid y espaciado */
 .form-grid{ display:grid; gap: var(--space-3); }
 .field{ position:relative; }
 
-/* Inputs base */
+/* Inputs: superficie suave + ring de foco */
 .form-card input[type="text"],
 .form-card input[type="tel"],
 .form-card select,
 .form-card textarea{
-  background-color: var(--field-bg);
+  background-color: var(--field-bg); /* NO blanco puro */
   color: var(--field-text);
   border: 1px solid var(--field-border);
-  min-height: 44px;
+  min-height: 48px;
+  transition: box-shadow .15s ease, border-color .15s ease, background-color .15s ease;
+}
+.form-card :is(input,select,textarea):focus{
+  border-color: var(--brand-600);
+  box-shadow: 0 0 0 6px rgba(37,99,235,.12);
 }
 .form-card input::placeholder,
-.form-card textarea::placeholder{ color: var(--field-placeholder); opacity: 1; }
+.form-card textarea::placeholder{ color: var(--field-placeholder); }
 
-/* Hints solo al foco (menos ruido) */
-.field .hint{ opacity:0; height:0; overflow:hidden; transition: opacity .15s ease; }
-.field:focus-within .hint{ opacity:1; height:auto; }
-
-/* Floating label para input/textarea */
+/* ===== Etiqueta flotante SIN solaparse con placeholder
+   - placeholder oculto por defecto
+   - aparece SOLO al foco
+   - la etiqueta flota en foco o con contenido
+*/
 .floating input, .floating textarea{ padding-top: 1.35rem; }
 .floating label{
   position:absolute; left:.75rem; top:.85rem; pointer-events:none;
   font-size:.95rem; line-height:1; color:#64748b; padding:0 .25rem; background:transparent;
   transform-origin:left top; transition: transform .18s ease, color .18s ease, top .18s ease, background-color .18s ease;
 }
+/* placeholder oculto hasta que hay foco → evita solape */
+.floating input::placeholder, .floating textarea::placeholder{ opacity: 0; transition: opacity .12s ease; }
+.floating input:focus::placeholder, .floating textarea:focus::placeholder{ opacity:.65; }
+/* La etiqueta flota en foco o cuando hay texto */
 .floating :is(input,textarea):focus + label,
 .floating :is(input,textarea):not(:placeholder-shown) + label{
   top:.35rem; transform: translateY(-.35rem) scale(.88); color: var(--brand-700); background:#fff;
 }
 
-/* Foco y error */
+/* Hints: cero ruido visual; solo al foco */
+.field .hint{ display:none; }
+.field:focus-within .hint{ display:inline-block; color:#475569; margin-top:.25rem; }
+
+/* Errores / count */
 :focus-visible{ outline:2px solid var(--brand-500); outline-offset:2px; border-radius:.25rem; }
-.form-card :is(input,select,textarea):focus{ border-color: var(--brand-600); }
-.form-card :is(input,select,textarea)[aria-invalid="true"]{ border-color:#b00020 !important; outline-color:#b00020 !important; }
+.form-card :is(input,select,textarea)[aria-invalid="true"]{ border-color:#b00020 !important; outline-color:#b00020 !important; box-shadow:none; }
 .error{ color:#b00020; min-height:1.25rem; display:inline-block; }
 .count{ color:#475569; }
 
 /* CTA */
 .cta-primary{
   background: var(--cta-grad); color:#fff; border:none;
-  padding:.9rem 1.2rem; border-radius:.75rem;
+  padding:.95rem 1.25rem; border-radius:.75rem; font-weight: 600;
   box-shadow: 0 8px 24px rgba(37,99,235,.35);
 }
-.cta-primary:hover{ filter: brightness(1.05); }
+.cta-primary:hover{ filter: brightness(1.06); }
 @media (max-width: 768px){
   .cta-sticky{ position: sticky; bottom: .75rem; inset-inline: auto 0; z-index: 10; }
 }
@@ -212,13 +219,13 @@ h3{ font-family: var(--ff-serif); font-weight: 700; color: var(--text-strong); }
 .error-summary h3{ margin:0 0 .25rem; font-size:1rem; }
 .error-summary ul{ margin:0; padding-left:1rem; }
 
-/* Pasos y FAQ */
+/* Pasos y FAQ (cards en oscuro) */
 .steps{ padding-block: var(--space-5); }
 .steps-grid{ display:grid; gap: var(--space-2); grid-template-columns: repeat(3,1fr); }
 @media (max-width: 980px){ .steps-grid{ grid-template-columns:1fr; } }
-.step{ background: var(--card); color: var(--text); border-radius: var(--radius-2); padding: var(--space-3); box-shadow: var(--shadow-1); }
+.step{ background: #0F172A; color: var(--text); border-radius: var(--radius-2); padding: var(--space-3); box-shadow: var(--shadow-1); }
 
-.faq details{ background: var(--card); color: var(--text); border-radius: var(--radius-2); margin-block:.5rem; padding:.75rem 1rem; box-shadow: var(--shadow-1); }
+.faq details{ background: #0F172A; color: var(--text); border-radius: var(--radius-2); margin-block:.5rem; padding:.75rem 1rem; box-shadow: var(--shadow-1); }
 .faq summary{ font-weight:600; }
 
 /* Footer */
@@ -227,5 +234,5 @@ footer{ padding-block: var(--space-4) var(--space-6); color: var(--muted); }
 /* Micro‑interacciones */
 @media (prefers-reduced-motion: no-preference){
   .form-card, .step, .faq details{ transition: transform .2s ease, box-shadow .2s ease; }
-  .form-card:hover, .step:hover, .faq details:hover{ transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,.28); }
+  .form-card:hover, .step:hover, .faq details:hover{ transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,.32); }
 }
