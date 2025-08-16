@@ -15,6 +15,7 @@ database_id = "8879e33a-4762-489e-a61f-9506bf1d97f9"
   [vars]
  MAIL_PROVIDER = "resend"
  MAIL_FROM = "no-reply@example.com"
- DEFAULT_EMAIL = "leads@example.com"
+ DEFAULT_EMAIL = "ismael.guijarro.raissouni@gmail.com"
  ALLOWED_ORIGINS = "https://ismatpg.github.io"
+
 
