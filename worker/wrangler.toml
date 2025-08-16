@@ -1,9 +1,11 @@
 name = "lead-api"
-main = "src/worker.js"           # o tu ruta real: src/index.ts/js
+main = "src/index.js"
 compatibility_date = "2025-05-20"
-workers_dev = true               # sin routes ni custom domains aquí
+workers_dev = true
 
-# ⚠️ IMPORTANTE: NO añadas 'logpush' ni bloques [observability] aquí.
+[observability]
+enabled = false  # <- fuerza OFF; evita tocar script-settings
+
 
 # --- Enlaces/bindings que ya usabas ---
 [[d1_databases]]
@@ -17,5 +19,6 @@ database_id = "8879e33a-4762-489e-a61f-9506bf1d97f9"
  MAIL_FROM = "no-reply@example.com"
  DEFAULT_EMAIL = "ismael.guijarro.raissouni@gmail.com"
  ALLOWED_ORIGINS = "https://ismatpg.github.io"
+
 
 
