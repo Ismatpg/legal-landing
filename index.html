@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" class="no-js">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,7 +7,7 @@
   <title>[Votre Cabinet] — Appel gratuit pour évaluer votre dossier</title>
   <meta name="description" content="Décrivez votre situation en 2 minutes. Un avocat vous contactera pour une première évaluation sans engagement." />
   <meta name="robots" content="index,follow" />
-  <link rel="canonical" href="https://ismatpg.github.io/legal-landing/" />
+  <link rel="canonical" href="https://ismatpg.github.io/legal-landing" />
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
   <meta name="theme-color" content="#2563EB" />
 
@@ -27,11 +27,13 @@
   <!-- Pico + estilos -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
-  <link rel="stylesheet" href="assets/css/styles.css" />
+  <!-- cache‑buster para asegurar que ves los cambios -->
+  <link rel="stylesheet" href="assets/css/styles.css?v=10" />
 
   <!-- Turnstile -->
   <script defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
   <!-- JS del sitio -->
+  <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
   <script defer src="assets/js/main.js"></script>
 </head>
 <body>
@@ -87,10 +89,9 @@
           </ul>
         </div>
 
-        <!-- Formulario -->
-        <aside class="card form-card" aria-labelledby="form-title" aria-describedby="form-desc">
+        <!-- Formulario por pasos (sin clase .card para evitar override) -->
+        <aside class="form-card" aria-labelledby="form-title" aria-describedby="form-desc">
           <h2 id="form-title" class="form-title">Réservez votre appel</h2>
-          <!-- Texto más breve para “menos ruido” -->
           <p id="form-desc" class="form-desc">2&nbsp;minutes. Vos infos restent privées.</p>
 
           <!-- Resumen de errores (se muestra si hay fallos) -->
@@ -99,68 +100,107 @@
             <ul id="error-list"></ul>
           </div>
 
-          <form id="lead-form" class="lead-form form-grid" method="post" action="https://TU_API.example.com/api/leads" novalidate>
-            <!-- Téléphone (label flotante + placeholder SOLO al foco) -->
-            <div class="field floating">
-              <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required
-                     placeholder="+212 6 12 34 56 78"
-                     aria-describedby="phone-hint phone-error" />
-              <label for="phone">Téléphone</label>
-              <small id="phone-hint" class="hint">Espaces et tirets acceptés.</small>
-              <small id="phone-error" class="error" role="alert" aria-live="polite"></small>
+          <form id="lead-form" class="lead-form" method="post" action="0x4AAAAAABsHVC6en8g2oW31" novalidate>
+            <div class="stepper" role="list">
+              <!-- ÉTAPE 1 -->
+              <section class="step is-active" role="group" aria-labelledby="s1-title">
+                <header class="step-header">
+                  <span class="step-index" aria-hidden="true">1</span>
+                  <h3 id="s1-title" class="step-title">Téléphone</h3>
+                  <span class="step-state" aria-live="polite"></span>
+                </header>
+                <div class="step-body">
+                  <div class="field floating">
+                    <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required
+                           placeholder="+212 6 12 34 56 78"
+                           aria-describedby="phone-hint phone-error" />
+                    <label for="phone">Téléphone</label>
+                    <small id="phone-hint" class="hint">Espaces et tirets acceptés.</small>
+                    <small id="phone-error" class="error" role="alert" aria-live="polite"></small>
+                  </div>
+                  <div class="step-actions">
+                    <button type="button" id="next-1" class="primary">Continuer</button>
+                  </div>
+                </div>
+              </section>
+
+              <!-- ÉTAPE 2 -->
+              <section class="step" role="group" aria-labelledby="s2-title">
+                <header class="step-header">
+                  <span class="step-index" aria-hidden="true">2</span>
+                  <h3 id="s2-title" class="step-title">Ville</h3>
+                  <span class="step-state" aria-live="polite"></span>
+                </header>
+                <div class="step-body">
+                  <div class="field">
+                    <label for="city">Ville <abbr title="obligatoire" aria-label="obligatoire">*</abbr></label>
+                    <select id="city" name="city" required aria-describedby="city-error" autocomplete="address-level2">
+                      <option value="" selected disabled>Sélectionnez votre ville</option>
+                      <option>Casablanca</option><option>Rabat</option><option>Salé</option><option>Fès</option>
+                      <option>Marrakech</option><option>Tanger</option><option>Agadir</option><option>Meknès</option>
+                      <option>Oujda</option><option>Kénitra</option><option>Tétouan</option><option>Mohammédia</option>
+                      <option>Safi</option><option>Khouribga</option><option>Béni Mellal</option><option>Nador</option>
+                      <option>Témara</option><option>El Jadida</option><option>Settat</option><option>Taza</option>
+                      <option>Larache</option><option>Ksar El‑Kébir</option><option>Ouarzazate</option><option>Errachidia</option>
+                      <option>Essaouira</option><option>Taroudant</option><option>Al Hoceïma</option><option>Guelmim</option>
+                      <option>Berkane</option><option>Laâyoune</option><option>Dakhla</option>
+                    </select>
+                    <small id="city-error" class="error" role="alert" aria-live="polite"></small>
+                  </div>
+                  <div class="step-actions">
+                    <button type="button" id="back-2" class="secondary btn-secondary">Retour</button>
+                    <button type="button" id="next-2" class="primary">Continuer</button>
+                  </div>
+                </div>
+              </section>
+
+              <!-- ÉTAPE 3 -->
+              <section class="step" role="group" aria-labelledby="s3-title">
+                <header class="step-header">
+                  <span class="step-index" aria-hidden="true">3</span>
+                  <h3 id="s3-title" class="step-title">Résumé & envoi</h3>
+                  <span class="step-state" aria-live="polite"></span>
+                </header>
+                <div class="step-body">
+                  <div class="field floating">
+                    <textarea id="summary" name="summary" rows="5" minlength="20" maxlength="1000" required
+                              placeholder="Ex.: litige emploi — licenciement le 10/03; objectif: indemnité"
+                              aria-describedby="summary-hint summary-error summary-count"></textarea>
+                    <label for="summary">Résumé</label>
+                    <small id="summary-hint" class="hint">Min. 20 caractères.</small>
+                    <small id="summary-error" class="error" role="alert" aria-live="polite"></small>
+                    <small id="summary-count" class="count" aria-live="polite">0/1000</small>
+                  </div>
+
+                  <!-- Honeypot (oculto en CSS) -->
+                  <input type="text" id="middle-name" name="middle_name" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" placeholder="Ne pas remplir" />
+
+                  <!-- Tracking (oculto) -->
+                  <input type="hidden" name="utm_source" id="utm_source" />
+                  <input type="hidden" name="utm_medium" id="utm_medium" />
+                  <input type="hidden" name="utm_campaign" id="utm_campaign" />
+                  <input type="hidden" name="utm_term" id="utm_term" />
+                  <input type="hidden" name="utm_content" id="utm_content" />
+                  <input type="hidden" name="gclid" id="gclid" />
+
+                  <!-- Turnstile -->
+                  <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY" data-theme="light"></div>
+
+                  <label class="checkbox">
+                    <input type="checkbox" id="consent" name="consent" required />
+                    <span>J’accepte la <a href="privacidad.html" target="_blank" rel="noopener noreferrer">politique de confidentialité</a> et les <a href="terminos.html" target="_blank" rel="noopener noreferrer">mentions légales</a>.</span>
+                  </label>
+
+                  <div class="step-actions">
+                    <button type="button" id="back-3" class="secondary btn-secondary">Retour</button>
+                    <button type="submit" id="submit-btn" class="primary cta-primary">Demander un appel</button>
+                  </div>
+
+                  <p id="form-status" class="status" role="status" aria-live="polite" hidden></p>
+                  <noscript><p class="noscript">Activez JavaScript pour envoyer le formulaire.</p></noscript>
+                </div>
+              </section>
             </div>
-
-            <!-- Ville -->
-            <div class="field">
-              <label for="city">Ville <abbr title="obligatoire" aria-label="obligatoire">*</abbr></label>
-              <select id="city" name="city" required aria-describedby="city-error" autocomplete="address-level2">
-                <option value="" selected disabled>Sélectionnez votre ville</option>
-                <option>Casablanca</option><option>Rabat</option><option>Salé</option><option>Fès</option>
-                <option>Marrakech</option><option>Tanger</option><option>Agadir</option><option>Meknès</option>
-                <option>Oujda</option><option>Kénitra</option><option>Tétouan</option><option>Mohammédia</option>
-                <option>Safi</option><option>Khouribga</option><option>Béni Mellal</option><option>Nador</option>
-                <option>Témara</option><option>El Jadida</option><option>Settat</option><option>Taza</option>
-                <option>Larache</option><option>Ksar El‑Kébir</option><option>Ouarzazate</option><option>Errachidia</option>
-                <option>Essaouira</option><option>Taroudant</option><option>Al Hoceïma</option><option>Guelmim</option>
-                <option>Berkane</option><option>Laâyoune</option><option>Dakhla</option>
-              </select>
-              <small id="city-error" class="error" role="alert" aria-live="polite"></small>
-            </div>
-
-            <!-- Résumé (label flotante + placeholder SOLO al foco + contador) -->
-            <div class="field floating">
-              <textarea id="summary" name="summary" rows="5" minlength="20" maxlength="1000" required
-                        placeholder="Ex.: litige emploi — licenciement le 10/03; objectif: indemnité"
-                        aria-describedby="summary-hint summary-error summary-count"></textarea>
-              <label for="summary">Résumé</label>
-              <small id="summary-hint" class="hint">Min. 20 caractères.</small>
-              <small id="summary-error" class="error" role="alert" aria-live="polite"></small>
-              <small id="summary-count" class="count" aria-live="polite">0/1000</small>
-            </div>
-
-            <!-- Honeypot -->
-            <input type="text" id="middle-name" name="middle_name" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" placeholder="Ne pas remplir" />
-
-            <!-- Tracking -->
-            <input type="hidden" name="utm_source" id="utm_source" />
-            <input type="hidden" name="utm_medium" id="utm_medium" />
-            <input type="hidden" name="utm_campaign" id="utm_campaign" />
-            <input type="hidden" name="utm_term" id="utm_term" />
-            <input type="hidden" name="utm_content" id="utm_content" />
-            <input type="hidden" name="gclid" id="gclid" />
-
-            <!-- Turnstile -->
-            <div class="cf-turnstile" data-sitekey="0x4AAAAAABsHVC6en8g2oW31" data-theme="light"></div>
-
-            <label class="checkbox">
-              <input type="checkbox" id="consent" name="consent" required />
-              <span>J’accepte la <a href="privacidad.html" target="_blank" rel="noopener noreferrer">politique de confidentialité</a> et les <a href="terminos.html" target="_blank" rel="noopener noreferrer">mentions légales</a>.</span>
-            </label>
-
-            <button type="submit" id="submit-btn" class="primary cta-primary cta-sticky">Demander un appel</button>
-            <p id="form-status" class="status" role="status" aria-live="polite" hidden></p>
-
-            <noscript><p class="noscript">Activez JavaScript pour envoyer le formulaire.</p></noscript>
           </form>
 
           <p class="legal-hint">Ce site ne fournit pas de conseil juridique. L’envoi du formulaire ne crée pas de relation avocat‑client.</p>
@@ -171,9 +211,9 @@
     <section id="comment" class="steps">
       <h2>Comment ça marche ?</h2>
       <div class="steps-grid">
-        <article class="step"><h3>1) Envoi</h3><p>Vous nous laissez vos coordonnées et un résumé.</p></article>
-        <article class="step"><h3>2) Appel</h3><p>Nous vous contactons pour comprendre votre situation et vos objectifs.</p></article>
-        <article class="step"><h3>3) Proposition</h3><p>Si cela convient, nous présentons les options et les prochaines étapes.</p></article>
+        <article class="step-card"><h3>1) Envoi</h3><p>Vous nous laissez vos coordonnées et un résumé.</p></article>
+        <article class="step-card"><h3>2) Appel</h3><p>Nous vous contactons pour comprendre votre situation et vos objectifs.</p></article>
+        <article class="step-card"><h3>3) Proposition</h3><p>Si cela convient, nous présentons les options et les prochaines étapes.</p></article>
       </div>
     </section>
 
@@ -189,7 +229,7 @@
     <small>&copy; <span id="year"></span> [Votre Cabinet]. Tous droits réservés.</small>
   </footer>
 
-  <!-- Données structurées -->
+  <!-- Datos estructurados -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
