@@ -28,16 +28,16 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
   <!-- cache‑buster -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=18" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=22" />
 
   <!-- Turnstile -->
   <script defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
-  <!-- JS del sitio -->
+  <!-- JS -->
   <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
   <script defer src="assets/js/main.js"></script>
 </head>
 <body>
-  <a class="skip-link" href="#contenu">Aller au contenu</a>
+  <a class="skip-link sr-only" href="#contenu">Aller au contenu</a>
 
   <header class="container site-header">
     <nav>
@@ -52,6 +52,7 @@
 
   <main id="contenu" class="container">
     <section class="hero">
+      <!-- Fondo + scrim + parallax -->
       <div class="hero-media parallax" aria-hidden="true">
         <picture>
           <source type="image/avif"
@@ -60,13 +61,13 @@
           <source type="image/webp"
                   srcset="assets/img/hero-1280.webp 1280w, assets/img/hero-1920.webp 1920w"
                   sizes="(max-width: 980px) 100vw, 50vw">
-          <img src="assets/img/hero-1280.jpg" width="1280" height="800" alt=""
-               decoding="async" loading="eager" fetchpriority="high">
+          <img src="assets/img/hero-1280.jpg" width="1280" height="800" alt="" decoding="async" loading="eager" fetchpriority="high">
         </picture>
         <div class="hero-scrim" aria-hidden="true"></div>
       </div>
 
       <div class="hero-inner">
+        <!-- Texto -->
         <div class="hero-content">
           <h1>Un problème juridique ?<br><span class="accent">Nous vous rappelons et vous orientons</span></h1>
           <p class="lead">Laissez‑nous votre téléphone, votre ville et un bref résumé.</p>
@@ -103,8 +104,7 @@
               <section class="step is-active" role="group" aria-labelledby="s1-title">
                 <header class="step-header">
                   <span class="step-index" aria-hidden="true">1</span>
-                  <h3 id="s1-title" class="step-title">Téléphone</h3>
-                  <span class="step-state" aria-live="polite"></span>
+                  <h3 id="s1-title" class="sr-only">Téléphone</h3>
                 </header>
                 <div class="step-body">
                   <div class="field floating">
@@ -125,12 +125,11 @@
               <section class="step" role="group" aria-labelledby="s2-title">
                 <header class="step-header">
                   <span class="step-index" aria-hidden="true">2</span>
-                  <h3 id="s2-title" class="step-title">Ville</h3>
-                  <span class="step-state" aria-live="polite"></span>
+                  <h3 id="s2-title" class="sr-only">Ville</h3>
                 </header>
                 <div class="step-body">
                   <div class="field">
-                    <label for="city">Ville <abbr title="obligatoire" aria-label="obligatoire">*</abbr></label>
+                    <label for="city" class="sr-only">Ville</label>
                     <select id="city" name="city" required aria-describedby="city-error" autocomplete="address-level2">
                       <option value="" selected disabled>Sélectionnez votre ville</option>
                       <option>Casablanca</option><option>Rabat</option><option>Salé</option><option>Fès</option>
@@ -155,8 +154,7 @@
               <section class="step" role="group" aria-labelledby="s3-title">
                 <header class="step-header">
                   <span class="step-index" aria-hidden="true">3</span>
-                  <h3 id="s3-title" class="step-title">Résumé & envoi</h3>
-                  <span class="step-state" aria-live="polite"></span>
+                  <h3 id="s3-title" class="sr-only">Résumé et envoi</h3>
                 </header>
                 <div class="step-body">
                   <div class="field floating">
