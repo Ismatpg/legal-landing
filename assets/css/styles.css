@@ -122,15 +122,14 @@ h3{ font-family: var(--ff-serif); font-weight: 700; color: var(--text-strong); }
 .badges{ display:flex; flex-wrap:wrap; gap: var(--space-2); padding:0; list-style:none; margin-top: var(--space-2); }
 .badge{ display:inline-flex; align-items:center; gap:.5rem; color:var(--text); background: rgba(255,255,255,.06); padding:.35rem .6rem; border-radius: 999px; }
 
-/* ===== FORM CARD (blanco azulado + menos espacio) */
+/* ===== FORM CARD (blanco azulado con degradado) */
 .form-card{
   position: relative;
   color:#0f172a;
   border-radius: var(--radius-3);
-  padding: var(--space-3);                 /* ↓ 32 → 24 px */
+  padding: var(--space-3); /* compacto */
   box-shadow: var(--shadow-1);
-  /* Superficie: degradado BLANCO AZULADO */
-  background: linear-gradient(180deg,#F7FAFF 0%, #ECF3FF 100%);
+  background: linear-gradient(180deg,#F3F8FF 0%, #E6F0FF 100%);
   border: 1px solid rgba(30,58,138,.08);
   backdrop-filter: saturate(120%) blur(6px);
   /* Overrides Pico solo dentro del card */
@@ -148,11 +147,42 @@ h3{ font-family: var(--ff-serif); font-weight: 700; color: var(--text-strong); }
 .form-title{ margin-bottom:.25rem; font-family: var(--ff-serif); }
 .form-desc{ margin-top:0; color:#334155; }
 
-/* Grid del formulario — MÁS COMPACTO */
-.form-grid{ display:grid; gap: var(--space-2); }  /* ↓ 24 → 16 px */
-.field{ position:relative; }
+/* ===== STEPPER */
+.stepper{ display: grid; gap: var(--space-2); }
+.step{
+  border: 1px solid rgba(30,58,138,.10);
+  border-radius: .75rem;
+  background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(246,250,255,.85));
+  backdrop-filter: saturate(120%) blur(2px);
+}
+.step-header{
+  display:flex; align-items:center; gap:.75rem;
+  padding: .75rem var(--space-2);
+}
+.step-index{
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--brand-600); color: #fff; font-weight: 700;
+  display:grid; place-items:center; font-size:.95rem;
+}
+.step.is-complete .step-index{ background: #22C55E; }
+.step-title{ margin:0; color:#0f172a; }
+.step-body{
+  overflow:hidden; max-height:0;
+  padding: 0 var(--space-2);
+  transition: max-height .35s ease, padding-top .35s ease, padding-bottom .35s ease;
+}
+.step.is-active .step-body{
+  max-height: 1000px;
+  padding: var(--space-2);
+}
+.step-actions{ display:flex; gap:.5rem; justify-content:flex-end; padding: 0 var(--space-2) var(--space-2); }
+.btn-secondary{ background:#e2e8f0; border:1px solid #cbd5e1; color:#0f172a; }
 
-/* Inputs: superficie azulada + altura algo menor */
+/* Accesible sin JS: mostrar todo */
+.no-js .step .step-body{ max-height: none !important; padding: var(--space-2) !important; }
+
+/* ===== Inputs */
+.field{ position:relative; }
 .form-card input[type="text"],
 .form-card input[type="tel"],
 .form-card select,
@@ -160,7 +190,7 @@ h3{ font-family: var(--ff-serif); font-weight: 700; color: var(--text-strong); }
   background-color: var(--field-bg);      /* azul suave */
   color: var(--field-text);
   border: 1px solid var(--field-border);
-  min-height: 44px;                        /* ↓ 48 → 44 px */
+  min-height: 44px;                        /* compacto */
   transition: box-shadow .15s ease, border-color .15s ease, background-color .15s ease;
 }
 .form-card :is(input,select,textarea):focus{
@@ -170,31 +200,32 @@ h3{ font-family: var(--ff-serif); font-weight: 700; color: var(--text-strong); }
 .form-card input::placeholder,
 .form-card textarea::placeholder{ color: var(--field-placeholder); }
 
-/* ===== Etiqueta flotante ajustada y SIN solape con placeholder */
-.floating input, .floating textarea{ padding-top: 1.15rem; } /* ↓ 1.35 → 1.15 */
+/* Etiqueta flotante sin solape */
+.floating input, .floating textarea{ padding-top: 1.15rem; }
 .floating label{
-  position:absolute; left:.75rem; top:.75rem; pointer-events:none; /* ↓ top */
+  position:absolute; left:.75rem; top:.75rem; pointer-events:none;
   font-size:.95rem; line-height:1; color:#64748b; padding:0 .25rem; background:transparent;
   transform-origin:left top; transition: transform .18s ease, color .18s ease, top .18s ease, background-color .18s ease;
 }
-/* placeholder oculto hasta foco → evita solape visual */
 .floating input::placeholder, .floating textarea::placeholder{ opacity: 0; transition: opacity .12s ease; }
 .floating input:focus::placeholder, .floating textarea:focus::placeholder{ opacity:.65; }
-/* La etiqueta flota en foco o cuando hay texto */
 .floating :is(input,textarea):focus + label,
 .floating :is(input,textarea):not(:placeholder-shown) + label{
-  top:.3rem; transform: translateY(-.3rem) scale(.88); color: var(--brand-700); background:#F7FAFF; /* se integra con el card */
+  top:.3rem; transform: translateY(-.3rem) scale(.88); color: var(--brand-700); background:#F3F8FF;
 }
 
-/* Hints: cero ruido visual; solo al foco */
+/* Hints: solo al foco */
 .field .hint{ display:none; }
 .field:focus-within .hint{ display:inline-block; color:#475569; margin-top:.25rem; }
 
 /* Errores / count */
 :focus-visible{ outline:2px solid var(--brand-500); outline-offset:2px; border-radius:.25rem; }
 .form-card :is(input,select,textarea)[aria-invalid="true"]{ border-color:#b00020 !important; outline-color:#b00020 !important; box-shadow:none; }
-.error{ color:#b00020; min-height:1.1rem; display:inline-block; } /* un pelín más compacta */
+.error{ color:#b00020; min-height:1.1rem; display:inline-block; }
 .count{ color:#475569; }
+
+/* Oculta honeypot */
+.hp{ position:absolute; left:-9999px; width:1px; height:1px; opacity:0; pointer-events:none; }
 
 /* CTA */
 .cta-primary{
@@ -203,9 +234,6 @@ h3{ font-family: var(--ff-serif); font-weight: 700; color: var(--text-strong); }
   box-shadow: 0 8px 24px rgba(37,99,235,.35);
 }
 .cta-primary:hover{ filter: brightness(1.06); }
-@media (max-width: 768px){
-  .cta-sticky{ position: sticky; bottom: .75rem; inset-inline: auto 0; z-index: 10; }
-}
 
 /* Resumen de errores */
 .error-summary{
@@ -219,7 +247,7 @@ h3{ font-family: var(--ff-serif); font-weight: 700; color: var(--text-strong); }
 .steps{ padding-block: var(--space-5); }
 .steps-grid{ display:grid; gap: var(--space-2); grid-template-columns: repeat(3,1fr); }
 @media (max-width: 980px){ .steps-grid{ grid-template-columns:1fr; } }
-.step{ background: #0F172A; color: var(--text); border-radius: var(--radius-2); padding: var(--space-3); box-shadow: var(--shadow-1); }
+.step-card{ background: #0F172A; color: var(--text); border-radius: var(--radius-2); padding: var(--space-3); box-shadow: var(--shadow-1); }
 
 .faq details{ background: #0F172A; color: var(--text); border-radius: var(--radius-2); margin-block:.5rem; padding:.75rem 1rem; box-shadow: var(--shadow-1); }
 .faq summary{ font-weight:600; }
@@ -229,6 +257,6 @@ footer{ padding-block: var(--space-4) var(--space-6); color: var(--muted); }
 
 /* Micro‑interacciones */
 @media (prefers-reduced-motion: no-preference){
-  .form-card, .step, .faq details{ transition: transform .2s ease, box-shadow .2s ease; }
-  .form-card:hover, .step:hover, .faq details:hover{ transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,.32); }
+  .form-card, .step-card, .faq details{ transition: transform .2s ease, box-shadow .2s ease; }
+  .form-card:hover, .step-card:hover, .faq details:hover{ transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,.32); }
 }
