@@ -1,3 +1,4 @@
-name = "lead-api"                  # nombre del Worker (dominio: lead-api.<tu-subdominio>.workers.dev)
+name = "legal-landing-api"                  # nombre del Worker (dominio: lead-api.<tu-subdominio>.workers.dev)
 main = "src/index.js"              # punto de entrada
 compatibility_date = "2024-10-01"  # fecha de compatibilidad del runtime
+
