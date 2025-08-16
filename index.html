@@ -7,24 +7,24 @@
   <title>[Votre Cabinet] — Appel gratuit pour évaluer votre dossier</title>
   <meta name="description" content="Décrivez votre situation en 2 minutes. Un avocat vous contactera pour une première évaluation sans engagement." />
   <meta name="robots" content="index,follow" />
-  <link rel="canonical" href="https://ismatpg.github.io/legal-landing//" />
+  <link rel="canonical" href="https://ismatpg.github.io/legal-landing/" />
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
   <meta name="theme-color" content="#2563EB" />
 
-  <!-- Open Graph -->
+  <!-- OG / Twitter -->
   <meta property="og:title" content="Un problème juridique ? Parlons-en" />
-  <meta property="og:description" content="Laissez-nous votre téléphone, votre ville et un bref résumé. Nous vous rappelons pour évaluer votre dossier." />
+  <meta property="og:description" content="Un avocat vous rappelle en 24 h. Service confidentiel." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://TU_USUARIO.github.io/TU_REPO/" />
   <meta property="og:image" content="https://TU_USUARIO.github.io/TU_REPO/assets/img/og-image.svg" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Performance: fuentes -->
+  <!-- Fuentes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=Source+Serif+4:opsz,wght@8..60,400..700&display=swap" rel="stylesheet">
 
-  <!-- Pico.css + estilos -->
+  <!-- Pico + estilos -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
   <link rel="stylesheet" href="assets/css/styles.css" />
@@ -66,43 +66,41 @@
       </div>
 
       <div class="hero-inner">
-        <!-- Lado texto -->
+        <!-- Texto -->
         <div class="hero-content">
           <h1>Un problème juridique ?<br><span class="accent">Nous vous rappelons et vous orientons</span></h1>
-          <p class="lead">Laissez‑nous votre téléphone, votre ville et un bref résumé. Un avocat vous contactera pour une première évaluation sans engagement.</p>
+          <p class="lead">Laissez‑nous votre téléphone, votre ville et un bref résumé.</p>
 
           <ul class="badges" aria-label="Éléments de confiance">
             <li class="badge">
-              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-width="2" d="m5 13 4 4L19 7"/>
-              </svg> Réponse &lt; 24&nbsp;h
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="m5 13 4 4L19 7"/></svg>
+              Réponse &lt; 24&nbsp;h
             </li>
             <li class="badge">
-              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-width="2" d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path stroke-width="2" d="M20 13a8 8 0 1 1-16 0V9a8 8 0 1 1 16 0z"/>
-              </svg> Confidentiel & sécurisé
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path stroke-width="2" d="M20 13a8 8 0 1 1-16 0V9a8 8 0 1 1 16 0z"/></svg>
+              Confidentiel & sécurisé
             </li>
             <li class="badge">
-              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-width="2" d="M8 7h8M8 12h8M8 17h5M4 5h16v14H4z"/>
-              </svg> +1&nbsp;000 dossiers traités
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M8 7h8M8 12h8M8 17h5M4 5h16v14H4z"/></svg>
+              +1&nbsp;000 dossiers traités
             </li>
           </ul>
         </div>
 
-        <!-- Lado formulario -->
+        <!-- Formulario -->
         <aside class="card form-card" aria-labelledby="form-title" aria-describedby="form-desc">
           <h2 id="form-title" class="form-title">Réservez votre appel</h2>
-          <p id="form-desc" class="form-desc">Cela ne prend que 2&nbsp;minutes. Nous ne partagerons pas vos informations sans votre accord.</p>
+          <!-- Texto más breve para “menos ruido” -->
+          <p id="form-desc" class="form-desc">2&nbsp;minutes. Vos infos restent privées.</p>
 
-          <!-- Resumen de errores accesible -->
+          <!-- Resumen de errores (se muestra si hay fallos) -->
           <div id="error-summary" class="error-summary" role="alert" aria-live="polite" hidden>
             <h3>Veuillez corriger les erreurs suivantes :</h3>
             <ul id="error-list"></ul>
           </div>
 
-          <form id="lead-form" class="lead-form form-grid" method="post" action="0x4AAAAAABsHVC6en8g2oW31" novalidate>
-            <!-- Téléphone (floating + ejemplo) -->
+          <form id="lead-form" class="lead-form form-grid" method="post" action="https://TU_API.example.com/api/leads" novalidate>
+            <!-- Téléphone (label flotante + placeholder SOLO al foco) -->
             <div class="field floating">
               <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required
                      placeholder="+212 6 12 34 56 78"
@@ -112,7 +110,7 @@
               <small id="phone-error" class="error" role="alert" aria-live="polite"></small>
             </div>
 
-            <!-- Ville (select clásico para claridad) -->
+            <!-- Ville -->
             <div class="field">
               <label for="city">Ville <abbr title="obligatoire" aria-label="obligatoire">*</abbr></label>
               <select id="city" name="city" required aria-describedby="city-error" autocomplete="address-level2">
@@ -129,7 +127,7 @@
               <small id="city-error" class="error" role="alert" aria-live="polite"></small>
             </div>
 
-            <!-- Résumé (floating + ejemplo + contador) -->
+            <!-- Résumé (label flotante + placeholder SOLO al foco + contador) -->
             <div class="field floating">
               <textarea id="summary" name="summary" rows="5" minlength="20" maxlength="1000" required
                         placeholder="Ex.: litige emploi — licenciement le 10/03; objectif: indemnité"
@@ -140,7 +138,7 @@
               <small id="summary-count" class="count" aria-live="polite">0/1000</small>
             </div>
 
-            <!-- Anti‑spam -->
+            <!-- Honeypot -->
             <input type="text" id="middle-name" name="middle_name" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" placeholder="Ne pas remplir" />
 
             <!-- Tracking -->
@@ -152,7 +150,7 @@
             <input type="hidden" name="gclid" id="gclid" />
 
             <!-- Turnstile -->
-            <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY" data-theme="light"></div>
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAABsHVC6en8g2oW31" data-theme="light"></div>
 
             <label class="checkbox">
               <input type="checkbox" id="consent" name="consent" required />
