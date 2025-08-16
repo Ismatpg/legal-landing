@@ -1,24 +1,20 @@
-name = "lead-api"                    # <- usa el nombre que aparece en tus logs
+name = "lead-api"
 main = "src/index.js"
 compatibility_date = "2024-11-20"
 workers_dev = true
-
-#migrations
 migrations_dir = "migrations"
 
-# ❌ Quita/Comenta esta línea si la tenías:
-# logpush = true   # <-- esto provoca el error 10023 (solo Enterprise)
+# 🔧 Esto evita que wrangler toque "script-settings" de logs.
+[observability]
+enabled = false
 
 [vars]
-MAIL_PROVIDER   = "resend"                           # o "mailchannels"
+MAIL_PROVIDER   = "resend"
 MAIL_FROM       = "no-reply@example.com"
 DEFAULT_EMAIL   = "leads@example.com"
-ALLOWED_ORIGINS = "https://ismatpg.github.io"        # añade otros orígenes separados por coma
-
-# Secrets (defínelos en el dashboard o con wrangler secret put):
-# ADMIN_USER, ADMIN_PASS, JWT_SECRET, TURNSTILE_SECRET, RESEND_API_KEY
+ALLOWED_ORIGINS = "https://ismatpg.github.io"
 
 [[d1_databases]]
-binding = "DB"
+binding       = "DB"
 database_name = "legal_leads"
-database_id = "REPLACE_WITH_YOUR_D1_ID"             # <-- tu ID real de D1
+database_id   = "REPLACE_WITH_YOUR_D1_ID"
