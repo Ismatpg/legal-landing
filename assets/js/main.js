@@ -79,11 +79,13 @@ const API_URL = "https://lead-api.ismael-guijarro-raissouni.workers.dev"; // ←
   };
 
   // Stepper helpers
-  function showStep(i) {
+  function showStep(i, skipFocus = false) {
     steps.forEach((s, idx) => {
-      s.classList.toggle("is-active", idx === i);
+      const isActive = idx === i;
+      s.classList.toggle("is-active", isActive);
       s.classList.toggle("is-complete", idx < i);
-      s.setAttribute("aria-expanded", idx === i ? "true" : "false");
+      s.setAttribute("aria-expanded", isActive ? "true" : "false");
+      s.hidden = !isActive;
     });
     const progressBar = document.querySelector('.step-progress-bar');
     if (progressBar) {
@@ -91,10 +93,14 @@ const API_URL = "https://lead-api.ismael-guijarro-raissouni.workers.dev"; // ←
       progressBar.style.width = `${percent}%`;
     }
     activeIndex = i;
-    const focusable = steps[i].querySelector("input, select, textarea, button");
-    if (focusable) focusable.focus({ preventScroll: true });
-    steps[i].scrollIntoView({ behavior: "smooth", block: "center" });
+    if (!skipFocus) {
+      const focusable = steps[i].querySelector("input, select, textarea, button");
+      if (focusable) focusable.focus({ preventScroll: true });
+      steps[i].scrollIntoView({ behavior: "smooth", block: "center" });
+    }
   }
+
+  showStep(activeIndex, true);
 
   function validateStep1() {
     const digits = onlyDigits(phone.value);
