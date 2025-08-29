@@ -85,6 +85,11 @@ const API_URL = "https://lead-api.ismael-guijarro-raissouni.workers.dev"; // ←
       s.classList.toggle("is-complete", idx < i);
       s.setAttribute("aria-expanded", idx === i ? "true" : "false");
     });
+    const progressBar = document.querySelector('.step-progress-bar');
+    if (progressBar) {
+      const percent = (i / (steps.length - 1)) * 100;
+      progressBar.style.width = `${percent}%`;
+    }
     activeIndex = i;
     const focusable = steps[i].querySelector("input, select, textarea, button");
     if (focusable) focusable.focus({ preventScroll: true });

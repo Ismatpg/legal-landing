@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
   <!-- cache‑buster -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=22" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=24" />
 
   <!-- Turnstile -->
   <script defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
@@ -69,6 +69,7 @@
       <div class="hero-inner">
         <!-- Texto -->
         <div class="hero-content">
+          <img src="assets/img/justice.svg" alt="Balanza de justice" class="hero-symbol">
           <h1>Un problème juridique ?<br><span class="accent">Nous vous rappelons et vous orientons</span></h1>
           <p class="lead">Laissez‑nous votre téléphone, votre ville et un bref résumé.</p>
 
@@ -90,6 +91,7 @@
 
         <!-- Formulario por pasos -->
         <aside class="form-card" aria-labelledby="form-title" aria-describedby="form-desc">
+          <img src="assets/img/lawyer.svg" alt="Abogado con toga" class="form-illustration">
           <h2 id="form-title" class="form-title">Réservez votre appel</h2>
           <p id="form-desc" class="form-desc">2&nbsp;minutes. Vos infos restent privées.</p>
 
@@ -99,11 +101,13 @@
           </div>
 
           <form id="lead-form" class="lead-form" method="post" action="0x4AAAAAABsHVC6en8g2oW31" novalidate>
+            <div class="step-progress" aria-hidden="true"><div class="step-progress-bar"></div></div>
             <div class="stepper" role="list">
               <!-- ÉTAPE 1 -->
               <section class="step is-active" role="group" aria-labelledby="s1-title">
                 <header class="step-header">
                   <span class="step-index" aria-hidden="true">1</span>
+                  <svg aria-hidden="true" class="step-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.08 4.18 2 2 0 0 1 4.09 2h3a2 2 0 0 1 2 1.72 12.44 12.44 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.44 12.44 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                   <h3 id="s1-title" class="sr-only">Téléphone</h3>
                 </header>
                 <div class="step-body">
@@ -125,6 +129,7 @@
               <section class="step" role="group" aria-labelledby="s2-title">
                 <header class="step-header">
                   <span class="step-index" aria-hidden="true">2</span>
+                  <svg aria-hidden="true" class="step-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                   <h3 id="s2-title" class="sr-only">Ville</h3>
                 </header>
                 <div class="step-body">
@@ -154,6 +159,7 @@
               <section class="step" role="group" aria-labelledby="s3-title">
                 <header class="step-header">
                   <span class="step-index" aria-hidden="true">3</span>
+                  <svg aria-hidden="true" class="step-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
                   <h3 id="s3-title" class="sr-only">Résumé et envoi</h3>
                 </header>
                 <div class="step-body">
