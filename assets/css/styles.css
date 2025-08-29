@@ -90,6 +90,8 @@ h3{ font-family:var(--ff-serif); font-weight:700; color:var(--text-strong); }
   align-items:start;
 }
 .hero-content{ max-width:min(var(--measure),64ch); }
+.hero-symbol{ width:80px; height:auto; margin-bottom:var(--space-2); }
+.page-icon{ width:60px; height:auto; display:block; margin:var(--space-2) auto; }
 .form-card{ width:100%; max-width:420px; }
 @media (max-width:980px){ .hero-inner{ grid-template-columns:1fr; } .form-card{ max-width:none; } }
 
@@ -118,6 +120,7 @@ h3{ font-family:var(--ff-serif); font-weight:700; color:var(--text-strong); }
 
   /* Nada sale del card */
   overflow:hidden;
+  position:relative;
 
   /* Overrides Pico dentro del card */
   --pico-form-element-background-color:var(--field-bg);
@@ -131,6 +134,30 @@ h3{ font-family:var(--ff-serif); font-weight:700; color:var(--text-strong); }
 .form-card :is(h1,h2,h3,h4,h5,h6,p,small:not(.error),label,legend){ color:#0f172a !important; opacity:1 !important; }
 .form-title{ margin-bottom:.2rem; font-family:var(--ff-serif); }
 .form-desc{ margin-top:0; color:#334155; }
+.form-illustration{
+  position:absolute;
+  top:-20px;
+  right:-20px;
+  width:80px;
+  opacity:.15;
+}
+
+.step-progress{
+  height:4px;
+  background:#e0e7ff;
+  border-radius:999px;
+  overflow:hidden;
+  margin-bottom:var(--space-2);
+}
+.step-progress-bar{
+  height:100%;
+  width:0;
+  background:var(--brand-600);
+  transition:width .3s ease;
+}
+.step-icon{ color:#94a3b8; }
+.step.is-active .step-icon,
+.step.is-complete .step-icon{ color:var(--brand-600); }
 
 /* ===== STEPPER (todo dentro y al 100%) */
 .lead-form, .stepper, .step, .step-header, .step-body, .step-actions{ min-width:0; max-width:100%; }
