@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es" class="no-js">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Usuarios | Admin Leads</title>
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="/legal-landing/assets/css/styles.css?v=23">
+</head>
+<body>
+  <header class="container site-header" style="margin-top:1rem">
+    <nav>
+      <strong>Panel de administración</strong>
+      <ul>
+        <li><a href="/legal-landing/admin/admin.html">Inicio</a></li>
+        <li><button id="btn-logout" class="secondary btn-secondary">Cerrar sesión</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container" style="margin-top:1rem">
+    <section class="form-card">
+      <h2 class="form-title">Usuarios</h2>
+      <p class="form-desc">Crear cuentas para colaboradores.</p>
+
+      <form id="user-form">
+        <fieldset class="floating">
+          <input id="new-username" name="new-username" placeholder="abogado@ejemplo.com" required>
+          <label for="new-username">Usuario</label>
+        </fieldset>
+        <fieldset class="floating">
+          <input id="new-password" name="new-password" type="password" placeholder="••••••" required>
+          <label for="new-password">Contraseña</label>
+        </fieldset>
+        <button class="primary" type="submit">Crear usuario</button>
+        <small id="user-status" class="error" aria-live="polite"></small>
+      </form>
+
+      <hr>
+
+      <h3>Usuarios existentes</h3>
+      <div class="table-responsive">
+        <table role="grid">
+          <thead><tr><th>Usuario</th></tr></thead>
+          <tbody id="users-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script defer src="/legal-landing/assets/js/users.js?v=23"></script>
+</body>
+</html>

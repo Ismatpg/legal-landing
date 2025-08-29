@@ -32,6 +32,16 @@ export default {
           const city = decodeURIComponent(url.pathname.replace('/api/admin/routes/', ''));
           return withCORS(await deleteRoute(env, city), request, env, true);
         }
+        if (url.pathname === '/api/admin/users' && request.method === 'GET') {
+          return withCORS(await listUsers(env), request, env, true);
+        }
+        if (url.pathname === '/api/admin/users' && request.method === 'POST') {
+          return withCORS(await createUser(request, env), request, env, true);
+        }
+        if (url.pathname.startsWith('/api/admin/users/') && request.method === 'DELETE') {
+          const uname = decodeURIComponent(url.pathname.replace('/api/admin/users/', ''));
+          return withCORS(await deleteUser(env, uname), request, env, true);
+        }
         if (url.pathname === '/api/admin/settings' && request.method === 'GET') {
           return withCORS(await getSettings(env), request, env, true);
         }
@@ -131,6 +141,15 @@ async function verifyJWT(token, secret) {
   if (payload.exp && payload.exp < Math.floor(Date.now() / 1000)) return null;
   return payload;
 }
+
+async function hashPassword(password) {
+  const hash = await crypto.subtle.digest('SHA-256', text(password));
+  return b64u(hash);
+}
+
+async function verifyPassword(password, hashed) {
+  return (await hashPassword(password)) === hashed;
+}
 function setSessionCookie(token) {
   // Cookie cross-site para que GitHub Pages pueda enviarla en fetch(credentials: 'include')
   return `session=${token}; Path=/; HttpOnly; Secure; SameSite=None; Max-Age=${12 * 60 * 60}`;
@@ -168,6 +187,11 @@ async function ensureSchema(env) {
     CREATE TABLE IF NOT EXISTS settings (
       key TEXT PRIMARY KEY,
       value TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT NOT NULL UNIQUE,
+      pass_hash TEXT NOT NULL
     );
     INSERT OR IGNORE INTO settings (key, value) VALUES ('default_email', COALESCE(?,'leads@example.com'));
   `, [env.DEFAULT_EMAIL || null]);
@@ -302,10 +326,20 @@ async function handleLogin(request, env) {
 
   if (!username || !password) return withCORS(jsonError(400, 'BAD_CREDENTIALS'), request, env, true);
 
-  const ok = (username === env.ADMIN_USER) && (password === env.ADMIN_PASS);
+  let role = 'user';
+  let ok = false;
+  if (username === env.ADMIN_USER && password === env.ADMIN_PASS) {
+    ok = true;
+    role = 'admin';
+  } else {
+    await ensureSchema(env);
+    const row = await env.DB.prepare(`SELECT pass_hash FROM users WHERE username=?`).bind(username).first();
+    if (row && await verifyPassword(password, row.pass_hash)) ok = true;
+  }
+
   if (!ok) return withCORS(jsonError(401, 'BAD_CREDENTIALS'), request, env, true);
 
-  const token = await signJWT({ sub: env.ADMIN_USER, role: 'admin' }, env.JWT_SECRET, 12 * 60 * 60);
+  const token = await signJWT({ sub: username, role }, env.JWT_SECRET, 12 * 60 * 60);
   const resp = new Response(JSON.stringify({ ok: true }), { status: 200, headers: jsonHeaders() });
   return withCORS(resp, request, env, true, setSessionCookie(token));
 }
@@ -361,6 +395,32 @@ async function listLeads(request, env) {
   const limit = Math.max(1, Math.min(100, parseInt(url.searchParams.get('limit') || '50', 10)));
   const rows = await env.DB.prepare(`SELECT id, created_at, phone, city, summary FROM leads ORDER BY id DESC LIMIT ?`).bind(limit).all();
   return new Response(JSON.stringify({ ok: true, leads: rows.results || [] }), { status: 200, headers: jsonHeaders() });
+}
+
+/* ---- Admin: usuarios ---- */
+async function listUsers(env) {
+  await ensureSchema(env);
+  const rows = await env.DB.prepare(`SELECT username FROM users ORDER BY username`).all();
+  return new Response(JSON.stringify({ ok: true, users: rows.results || [] }), { status: 200, headers: jsonHeaders() });
+}
+async function createUser(request, env) {
+  await ensureSchema(env);
+  const data = await request.json().catch(() => ({}));
+  let { username, password } = data || {};
+  if (!username || !password) return jsonError(400, 'INVALID_INPUT');
+  username = String(username).trim().toLowerCase();
+  const pass_hash = await hashPassword(password);
+  try {
+    await env.DB.prepare(`INSERT INTO users (username, pass_hash) VALUES (?,?)`).bind(username, pass_hash).run();
+  } catch (e) {
+    return jsonError(400, 'USER_EXISTS');
+  }
+  return new Response(JSON.stringify({ ok: true }), { status: 200, headers: jsonHeaders() });
+}
+async function deleteUser(env, username) {
+  if (!username) return jsonError(400, 'INVALID_INPUT');
+  await env.DB.prepare(`DELETE FROM users WHERE username=?`).bind(username).run();
+  return new Response(JSON.stringify({ ok: true }), { status: 200, headers: jsonHeaders() });
 }
 
 /* ---- util ---- */
